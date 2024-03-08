@@ -6,3 +6,4 @@ pytest == 8.0.2
 python-dotenv == 1.0.1
 psycopg2 == 2.9.9
 SQLAlchemy == 1.4.51
+psycopg2-binary == 2.9.9
