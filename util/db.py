@@ -26,7 +26,7 @@ class Assignments(db.Model):
     deadline = db.Column(db.DateTime, nullable=False)
     assignment_created = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     assignment_updated = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-    owner_user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+    owner_user_id = db.Column(UUID(as_uuid=True), db.ForeignKey("users.id"))
 
     @validates('points')
     def validate_points(self, key, points):
