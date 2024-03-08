@@ -9,13 +9,13 @@ jobs:
   integration-test:
     runs-on: ubuntu-latest  
 
-  env:
-    DBHOST: "localhost"
-    DBUSER: ${{ secrets.DB_USER }}
-    DBPASS: ${{ secrets.DB_PASS }}
-    DATABASE: "app_db"
-    DBPORT: 5433                        
-    CSV_PATH: "../users.csv"
+    env:
+      DBHOST: "localhost"
+      DBUSER: ${{ secrets.DB_USER }}
+      DBPASS: ${{ secrets.DB_PASS }}
+      DATABASE: "app_db"
+      DBPORT: 5433                        
+      CSV_PATH: "../users.csv"
 
     services:
       postgres:
