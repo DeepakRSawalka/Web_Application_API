@@ -1,11 +1,12 @@
-from flask import Flask, request, jsonify,make_response
+from flask import Flask, request, jsonify, make_response
 from dotenv import load_dotenv
 from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
 from util.validations import Validation
 from util.encrypt import Encryption
-from util.db import Users, db
+from util.db import Users, Assignments, db
 import os 
+from sqlalchemy.exc import SQLAlchemyError
 import psycopg2
 import uuid 
 import pandas as pd
@@ -54,7 +55,6 @@ def add_users():
 
             if Users.query.filter_by(email=row['email']).first():
                 #logger.info('User with the same email already exists')
-                print('User already exists')
                 continue
 
             hashed_password = Encryption.encrypt(row['password'])
@@ -71,44 +71,62 @@ def add_users():
         #logger.info('Users added successfully')
         print("Users added successfully")
         
-        return jsonify(message = 'Users added successfully'), 201
+        return jsonify({"message" : "Users added successfully"}), 201
 
     except Exception as e:
         #logger.error(f'DB error: {e}')
         return jsonify(message=f'DB error: {e}'), 500
-'''  
+  
 @app.route('/v1/assignments', methods = ['POST'])
 def create_assignment():
+    auth_header = request.headers.get('Authorization')
+    if not auth_header:
+        return jsonify({"message": "Authentication required"}), 401
+    
+    email, password = Encryption.decode(auth_header)
+    if not Encryption.validate_email(email):
+        return jsonify({"message": "Invalid email format"}), 400
+    
+    user = Encryption.validate_user(email, password)
+    if not user:
+        return jsonify({"message" : "Invalid credentials"}), 401
+    
     data = request.get_json()
-    message = Validation.isUserDataValid(data)
+    message = Validation.isAssignDataValid(data)
     if message != "":
         # logger.error(message)
-        return {"message" : message},400
-    first_name = data.get('first_name')
-    last_name = data.get('last_name')
-    email = data.get('email')
-    password = data.get('password')
-    user = Users.query.filter_by(email=email).first()
-    if user:
+        return jsonify({"message" : message}), 400
+    
+    name = data.get("name")
+    points = data.get("points")
+    num_of_attempts = data.get("num_of_attempts")
+    deadline = data.get("deadline")
+    assign = Assignments.query.filter_by(name=name).first()
+    if assign:
         # logger.error('User already exist')
-        return {"message":"User already exist"},400
+        return jsonify({"message":"Assignment already exist"}), 400
 
-    password = Encryption.encrypt(password)
-    new_user = Users(first_name=first_name, last_name=last_name, email=email, password=password)
-    db.session.add(new_user)
-    user = Users.query.filter_by(email=email).first()
-    db.session.commit()
-    schema = {
-        "id": user.id,
-        "first_name": user.first_name,
-        "last_name": user.last_name,
-        "email": user.email,
-        "account_created": user.account_created,
-        "account_updated": user.account_updated
-    } 
-    # logger.info('Create User API ended')
-    return schema,201
-'''
+    new_assign = Assignments(name=name, points=points, num_of_attempts=num_of_attempts, deadline=deadline, owner_user_id=user.id)
+    db.session.add(new_assign)
+    try:
+
+        db.session.commit()
+        schema = {
+            "id": new_assign.id,
+            "name": new_assign.name,
+            "points": new_assign.points,
+            "num_of_attempts": new_assign.num_of_attempts,
+            "deadline": new_assign.deadline,
+            "assignment_created": new_assign.assignment_created,
+            "assignment_updated": new_assign.assignment_updated
+        } 
+        # logger.info('Create User API ended')
+        return schema,201
+    except SQLAlchemyError as e:
+        db.session.rollback()  # Roll back the session on error
+        # logger.error(f"Database error: {str(e)}")
+        return jsonify({"message": "Database error, could not create assignment"}), 500
+
 
 if __name__ == '__main__':
     with app.app_context():
