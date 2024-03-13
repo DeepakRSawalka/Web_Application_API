@@ -24,8 +24,8 @@ class Assignments(db.Model):
     points = db.Column(db.Integer, nullable=False)
     num_of_attempts = db.Column(db.Integer, nullable=False)
     deadline = db.Column(db.DateTime, nullable=False)
-    assignment_created = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-    assignment_updated = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    assignment_created = db.Column(db.DateTime, nullable=False, default=datetime.now())
+    assignment_updated = db.Column(db.DateTime, nullable=False, default=datetime.now())
     owner_user_id = db.Column(UUID(as_uuid=True), db.ForeignKey("users.id"))
 
     @validates('points')
