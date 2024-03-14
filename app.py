@@ -284,6 +284,10 @@ def delete_assignments(id):
         # logger.error(f"Database error: {str(e)}")
         return jsonify({"message": f"Server error: {e}"}), 500
     
+@app.route('/v1/assignments/<id>', methods = ['PATCH'])
+def update(id):
+    return {},405
+    
 if __name__ == '__main__':
     with app.app_context():
         response, status = add_users()
