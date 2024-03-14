@@ -220,8 +220,6 @@ def update_assignments(id):
     if not user:
         return jsonify({"message" : "Invalid credentials-Unauthorised"}), 401
     
-    
-    
     try:
         assignments = Assignments.query.filter_by(id=id).first()
 
@@ -242,6 +240,42 @@ def update_assignments(id):
         assignments.num_of_attempts = data.get("num_of_attempts")
         assignments.deadline = data.get("deadline")
          
+        db.session.commit()
+            
+        return {},204
+
+    except Exception as e:
+        # logger.error(f"Database error: {str(e)}")
+        return jsonify({"message": f"Server error: {e}"}), 500
+    
+
+@app.route('/v1/assignments/<id>', methods = ['DELETE'])
+def delete_assignments(id):
+    auth_header = request.headers.get('Authorization')
+    if not auth_header:
+        return jsonify({"message": "Authentication required"}), 401
+    
+    email, password = Encryption.decode(auth_header)
+    if not Validation.validate_email(email):
+        return jsonify({"message": "Invalid email format"}), 400
+    
+    user = Validation.validate_user(email, password)
+    if not user:
+        return jsonify({"message" : "Invalid credentials-Unauthorised"}), 401
+    
+    try:
+        assignments = Assignments.query.filter_by(id=id).first()
+
+        if assignments.owner_user_id != user.id:
+            return jsonify({"message": "User does not have necessary permissions to Delete-Forbidden"}), 403
+
+        if request.data:
+            return jsonify({"message": "Request body should be empty"}), 400
+    
+        if not assignments:
+            return jsonify({"message": "Assignment not found"}), 404
+
+        db.session.delete(assignments)
         db.session.commit()
             
         return {},204
