@@ -84,12 +84,12 @@ def create_assignment():
         return jsonify({"message": "Authentication required"}), 401
     
     email, password = Encryption.decode(auth_header)
-    if not Encryption.validate_email(email):
+    if not Validation.validate_email(email):
         return jsonify({"message": "Invalid email format"}), 400
     
-    user = Encryption.validate_user(email, password)
+    user = Validation.validate_user(email, password)
     if not user:
-        return jsonify({"message" : "Invalid credentials"}), 401
+        return jsonify({"message" : "Invalid credentials-Unauthorised"}), 401
     
     data = request.get_json()
     message = Validation.isAssignDataValid(data)
@@ -126,6 +126,49 @@ def create_assignment():
         db.session.rollback()  # Roll back the session on error
         # logger.error(f"Database error: {str(e)}")
         return jsonify({"message": "Database error, could not create assignment"}), 500
+    
+@app.route('/v1/assignments', methods = ['GET'])
+def get_assignments():
+    auth_header = request.headers.get('Authorization')
+    if not auth_header:
+        return jsonify({"message": "Authentication required"}), 401
+    
+    email, password = Encryption.decode(auth_header)
+    if not Validation.validate_email(email):
+        return jsonify({"message": "Invalid email format"}), 400
+    
+    user = Validation.validate_user(email, password)
+    if not user:
+        return jsonify({"message" : "Invalid credentials-Unauthorised"}), 401
+    
+    if request.data:
+        return jsonify({"message": "Request body should be empty"}), 400
+    
+    try:
+        assignments = Assignments.query.all() 
+        if not assignments:
+            return jsonify({"message": "Assignemnt not found"}), 404
+         
+        schema = []
+        for assignment in assignments:
+            result ={
+            "id": assignment.id,  
+            "name": assignment.name,
+            "points": assignment.points,
+            "num_of_attempts": assignment.num_of_attempts,
+            "deadline": assignment.deadline.isoformat(), 
+            "assignment_created": assignment.assignment_created.isoformat(),
+            "assignment_updated": assignment.assignment_updated.isoformat()
+         }
+            schema.append(result)
+
+        return schema,200
+
+    except Exception as e:
+        # logger.error(f"Database error: {str(e)}")
+        return jsonify({"message": "Server error: {e}"}), 500
+
+
 
 
 if __name__ == '__main__':
