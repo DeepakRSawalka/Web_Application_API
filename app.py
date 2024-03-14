@@ -147,7 +147,7 @@ def get_assignments():
     try:
         assignments = Assignments.query.all() 
         if not assignments:
-            return jsonify({"message": "Assignemnt not found"}), 404
+            return jsonify({"message": "Assignment not found"}), 404
          
         schema = []
         for assignment in assignments:
@@ -188,7 +188,7 @@ def get_assignments_details(id):
     try:
         assignments = Assignments.query.filter_by(id=id).first()
         if not assignments:
-            return jsonify({"message": "Assignemnt not found"}), 404
+            return jsonify({"message": "Assignment not found"}), 404
          
         schema = {
         "id": assignments.id,  
@@ -206,7 +206,50 @@ def get_assignments_details(id):
         # logger.error(f"Database error: {str(e)}")
         return jsonify({"message": f"Server error: {e}"}), 500
 
+@app.route('/v1/assignments/<id>', methods = ['PUT'])
+def update_assignments(id):
+    auth_header = request.headers.get('Authorization')
+    if not auth_header:
+        return jsonify({"message": "Authentication required"}), 401
+    
+    email, password = Encryption.decode(auth_header)
+    if not Validation.validate_email(email):
+        return jsonify({"message": "Invalid email format"}), 400
+    
+    user = Validation.validate_user(email, password)
+    if not user:
+        return jsonify({"message" : "Invalid credentials-Unauthorised"}), 401
+    
+    
+    
+    try:
+        assignments = Assignments.query.filter_by(id=id).first()
 
+        if assignments.owner_user_id != user.id:
+            return jsonify({"message": "User does not have necessary permissions to Update-Forbidden"}), 403
+
+        if not assignments:
+            return jsonify({"message": "Assignment not found"}), 404
+        
+        data = request.get_json()
+        message = Validation.isAssignDataValid(data)
+        if message != "":
+            # logger.error(message)
+            return jsonify({"message" : message}), 400
+    
+        assignments.name = data.get("name")
+        assignments.points = data.get("points")
+        assignments.num_of_attempts = data.get("num_of_attempts")
+        assignments.deadline = data.get("deadline")
+         
+        db.session.commit()
+            
+        return {},204
+
+    except Exception as e:
+        # logger.error(f"Database error: {str(e)}")
+        return jsonify({"message": f"Server error: {e}"}), 500
+    
 if __name__ == '__main__':
     with app.app_context():
         response, status = add_users()
