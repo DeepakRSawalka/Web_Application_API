@@ -166,9 +166,45 @@ def get_assignments():
 
     except Exception as e:
         # logger.error(f"Database error: {str(e)}")
-        return jsonify({"message": "Server error: {e}"}), 500
+        return jsonify({"message": f"Server error: {e}"}), 500
 
+@app.route('/v1/assignments/<id>', methods = ['GET'])
+def get_assignments_details(id):
+    auth_header = request.headers.get('Authorization')
+    if not auth_header:
+        return jsonify({"message": "Authentication required"}), 401
+    
+    email, password = Encryption.decode(auth_header)
+    if not Validation.validate_email(email):
+        return jsonify({"message": "Invalid email format"}), 400
+    
+    user = Validation.validate_user(email, password)
+    if not user:
+        return jsonify({"message" : "Invalid credentials-Unauthorised"}), 401
+    
+    if request.data:
+        return jsonify({"message": "Request body should be empty"}), 400
+    
+    try:
+        assignments = Assignments.query.filter_by(id=id).first()
+        if not assignments:
+            return jsonify({"message": "Assignemnt not found"}), 404
+         
+        schema = {
+        "id": assignments.id,  
+        "name": assignments.name,
+        "points": assignments.points,
+        "num_of_attempts": assignments.num_of_attempts,
+        "deadline": assignments.deadline.isoformat(), 
+        "assignment_created": assignments.assignment_created.isoformat(),
+        "assignment_updated": assignments.assignment_updated.isoformat()
+         }
+            
+        return schema,200
 
+    except Exception as e:
+        # logger.error(f"Database error: {str(e)}")
+        return jsonify({"message": f"Server error: {e}"}), 500
 
 
 if __name__ == '__main__':
