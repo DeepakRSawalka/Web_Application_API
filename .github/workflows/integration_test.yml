@@ -11,8 +11,8 @@ jobs:
 
     env:
       DBHOST: "localhost"
-      DBUSER: ${{ secrets.DB_USER }}
-      DBPASS: ${{ secrets.DB_PASS }}
+      DBUSER: "postgres"  #${{ secrets.DB_USER }}
+      DBPASS: "password"
       DATABASE: "app_db"
       DBPORT: 5433                        
       CSV_PATH: "../users.csv"
@@ -21,8 +21,8 @@ jobs:
       postgres:
         image: postgres:16
         env:
-          POSTGRES_USER: ${{ secrets.DB_USER }}
-          POSTGRES_PASSWORD: ${{ secrets.DB_PASS }}
+          POSTGRES_USER: "postgres"
+          POSTGRES_PASSWORD: "password"
           POSTGRES_DB: "app_db"
         ports:
           - 5433:5432
