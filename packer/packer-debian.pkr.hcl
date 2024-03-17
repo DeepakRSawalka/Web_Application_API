@@ -45,7 +45,7 @@ variable "artifacts_destination" {
 
 variable "cloudwatch_source" {
   type    = string
-  default = "../cloud-watch/config.json"
+  default = "../config.json"
 }
 
 variable "cloudwatch_destination" {
