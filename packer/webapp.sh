@@ -26,7 +26,7 @@ unzip webapp.zip -d /home/admin/webapp
 echo "Setting up Python virtual environment and installing dependencies"
 cd /home/admin/webapp
 
-# Create a virtual environment named 'venv' and activate it
+# Create a virtual env named 'venv' and activate it
 virtualenv venv
 source venv/bin/activate
 
