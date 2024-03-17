@@ -14,8 +14,8 @@ jobs:
     env:
       DBHOST: "localhost"
       PORT: 5000
-      DBUSER: ${{ secrets.DBUSER }}
-      DBPASS: ${{ secrets.DBPASS }}
+      DBUSER: ${{ secrets.DB_USER }}
+      DBPASS: ${{ secrets.DB_PASS }}
       DATABASE: "csye6225"
       DBPORT: 5433
       CSV_PATH: "../users.csv"
