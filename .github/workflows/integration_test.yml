@@ -20,7 +20,7 @@ jobs:
     services:
       postgres:
         image: postgres:16
-        environment:
+        env:
           POSTGRES_USER: ${{ secrets.DB_USER }}
           POSTGRES_PASSWORD: ${{ secrets.DB_PASS }}
           POSTGRES_DB: "app_db"
