@@ -1,0 +1,13 @@
+[Unit]
+Description=Webapp
+After=network.target cloud-final.service
+
+[Service]
+Type=Simple
+ExecStart=/usr/bin/python /home/admin/webapp/app.py
+Restart=always
+RestartSec=3
+User=admin
+
+[Install]
+WantedBy=cloud-init.target
