@@ -8,7 +8,7 @@ sudo apt upgrade -y
 
 # Install Python3 and pip
 echo "Installing Python and pip"
-sudo apt install python3-pip python3-venv -y
+sudo apt install python3-pip python3-venv libpq-dev -y
 
 # Install unzip if not installed
 echo "Installing unzip"
