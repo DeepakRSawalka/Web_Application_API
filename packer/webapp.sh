@@ -23,18 +23,11 @@ echo "Unzipping the web application"
 unzip webapp.zip -d /home/admin/webapp
 
 # Navigate to the webapp directory
-echo "Setting up Python virtual environment and installing dependencies"
+echo "Navigating to the webapp directory"
 cd /home/admin/webapp
-
-# Create a virtual environment named 'venv' and activate it
-virtualenv venv
-source venv/bin/activate
 
 # Install Python dependencies from requirements.txt
 pip install -r requirements.txt
-
-# Deactivate the virtual environment
-deactivate
 
 # Copy the systemd service file and start the service
 echo "Setting up and starting the webapp service"
