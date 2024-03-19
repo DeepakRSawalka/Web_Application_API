@@ -10,10 +10,6 @@ sudo apt upgrade -y
 echo "Installing Python and pip"
 sudo apt install python3-pip -y
 
-# It's a good idea to install virtualenv to create isolated Python environments
-echo "Installing virtualenv"
-sudo pip3 install virtualenv
-
 # Install unzip if not installed
 echo "Installing unzip"
 sudo apt-get install unzip -y
