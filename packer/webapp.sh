@@ -16,13 +16,14 @@ sudo apt-get install unzip -y
 
 # Unzip the web application
 echo "Unzipping the web application"
-unzip webapp.zip -d /home/admin/webapp
+unzip webapp.zip -d webapp
 
 # Navigate to the webapp directory
 echo "Navigating to the webapp directory"
-cd /home/admin/webapp
+cd webapp
 
 # Install Python dependencies from requirements.txt
+echo "Installing Python dependencies"
 sudo pip3 install -r requirements.txt
 
 # Copy the systemd service file and start the service
