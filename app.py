@@ -10,6 +10,8 @@ from sqlalchemy.exc import SQLAlchemyError
 import psycopg2
 import uuid 
 import pandas as pd
+from logging import logger
+import statsd
 
 load_dotenv()
 
@@ -23,6 +25,8 @@ db.init_app(app)
 
 with app.app_context():
     db.create_all()
+
+c = statsd.StatsClient('localhost', 8125)
 
 @app.route('/healthz', methods = ['GET'])
 def healthcheck():
