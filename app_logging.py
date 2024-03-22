@@ -37,4 +37,4 @@ file_handler.setFormatter(CustomFormatter())
 # Add file handler to logger
 logger.addHandler(file_handler)
 
-logger.info('This is a test log message.', extra={'method': 'GET', 'uri': '/api/test', 'statusCode': 200})
+# logger.info('This is a test log message.', extra={'method': 'GET', 'uri': '/api/test', 'statusCode': 200})
