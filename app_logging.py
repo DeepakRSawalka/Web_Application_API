@@ -31,9 +31,10 @@ logger = logging.getLogger('csye6225Logger')
 logger.setLevel(logging.INFO)  # Set default log level
 
 # Create file handler
-file_handler = logging.FileHandler(os.path.join(app_root, 'logs', 'csye6225.log'))
+file_handler = logging.FileHandler(os.path.join(app_root,'csye6225.log'))
 file_handler.setFormatter(CustomFormatter())
 
 # Add file handler to logger
 logger.addHandler(file_handler)
 
+logger.info('This is a test log message.', extra={'method': 'GET', 'uri': '/api/test', 'statusCode': 200})
