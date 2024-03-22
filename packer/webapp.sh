@@ -8,7 +8,7 @@ sudo apt upgrade -y
 
 # Install Python3 and pip
 echo "Installing Python and pip"
-sudo apt install python3-pip -y
+sudo apt install python3-pip python3-venv -y
 
 # Install unzip if not installed
 echo "Installing unzip"
@@ -22,9 +22,20 @@ unzip webapp.zip -d webapp
 echo "Navigating to the webapp directory"
 cd webapp
 
+# Create a virtual environment
+echo "Creating a virtual environment"
+python3 -m venv venv
+
+# Activate the virtual environment
+echo "Activating the virtual environment"
+source venv/bin/activate
+
 # Install Python dependencies from requirements.txt
 echo "Installing Python dependencies"
-sudo pip3 install -r requirements.txt
+pip3 install -r requirements.txt
+
+# Deactivate the virtual environment
+deactivate
 
 # Copy the systemd service file and start the service
 echo "Setting up and starting the webapp service"
