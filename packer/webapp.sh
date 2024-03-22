@@ -23,7 +23,7 @@ echo "Navigating to the webapp directory"
 cd /home/admin/webapp
 
 # Install Python dependencies from requirements.txt
-pip install -r requirements.txt
+pip install --user -r requirements.txt
 
 # Copy the systemd service file and start the service
 echo "Setting up and starting the webapp service"
