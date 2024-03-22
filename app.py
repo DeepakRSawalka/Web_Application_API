@@ -11,12 +11,11 @@ import psycopg2
 import uuid 
 import pandas as pd
 import statsd
-import logging
+from app_logging import logger
 
 load_dotenv()
 
 app = Flask(__name__)
-logger = logging.getLogger(__name__)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = f"postgresql+psycopg2://{os.getenv('DBUSER')}:{os.getenv('DBPASS')}@{os.getenv('DBHOST')}:{os.getenv('DBPORT')}/{os.getenv('DATABASE')}"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
