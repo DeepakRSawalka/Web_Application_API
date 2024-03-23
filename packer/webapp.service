@@ -3,7 +3,7 @@ Description=Webapp
 After=network.target cloud-final.service
 
 [Service]
-Type=Simple
+Type=simple
 ExecStart=/home/admin/webapp/venv/bin/python /home/admin/webapp/app.py
 Restart=always
 RestartSec=3
