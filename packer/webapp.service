@@ -8,6 +8,7 @@ ExecStart=/home/admin/webapp/venv/bin/python /home/admin/webapp/app.py
 Restart=always
 RestartSec=3
 User=admin
+EnvironmentFile=/home/admin/webapp/.env
 WorkingDirectory=/home/admin/webapp
 
 [Install]
