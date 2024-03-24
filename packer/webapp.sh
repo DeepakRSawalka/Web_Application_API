@@ -26,16 +26,9 @@ cd webapp
 echo "Creating a virtual environment"
 python3 -m venv venv
 
-# Activate the virtual environment
-echo "Activating the virtual environment"
-source venv/bin/activate
-
-# Install Python dependencies from requirements.txt
-echo "Installing Python dependencies"
-pip3 install -r requirements.txt
-
-# Deactivate the virtual environment
-deactivate
+# Create a virtual environment and install dependencies
+echo " Installing Python dependencies"
+venv/bin/pip install -r requirements.txt
 
 # Copy the systemd service file and start the service
 echo "Setting up and starting the webapp service"
