@@ -16,11 +16,11 @@ sudo apt-get install unzip -y
 
 # Unzip the web application
 echo "Unzipping the web application"
-unzip webapp.zip -d webapp
+unzip webapp.zip -d /home/admin/
 
 # Navigate to the webapp directory
 echo "Navigating to the webapp directory"
-cd webapp
+cd /home/admin/webapp
 
 # Create a virtual environment
 echo "Creating a virtual environment"
@@ -34,7 +34,7 @@ venv/bin/pip install -r requirements.txt
 echo "Setting up and starting the webapp service"
 sudo cp /home/admin/webapp/packer/webapp.service /etc/systemd/system
 sudo systemctl daemon-reload
-sudo systemctl start webapp.service
 sudo systemctl enable webapp.service
+sudo systemctl start webapp.service
 
 echo "Script executed successfully!"
