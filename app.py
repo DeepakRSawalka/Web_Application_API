@@ -15,7 +15,7 @@ from app_logging import logger
 
 
 print(f"Before loading .env: DBHOST={os.getenv('DBHOST')}")
-load_dotenv('/home/admin/webapp/.env')
+load_dotenv()
 print(f"After loading .env: DBHOST={os.getenv('DBHOST')}")
 
 app = Flask(__name__)
