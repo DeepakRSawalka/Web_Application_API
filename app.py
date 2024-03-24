@@ -14,6 +14,7 @@ import statsd
 from app_logging import logger
 import logging
 
+'''
 logging.basicConfig(level=logging.INFO)
 
 logging.info(f"Before loading .env: DBHOST={os.getenv('DBHOST')}")
@@ -21,6 +22,7 @@ dotenv_path = '/home/ec2-user/webapp/.env'
 print(f"Attempting to load .env from: {os.path.abspath(dotenv_path)}")
 load_dotenv(dotenv_path)
 logging.info(f"After loading .env: DBHOST={os.getenv('DBHOST')}")
+'''
 db_host = os.getenv("DBHOST")
 print(db_host)
 db_port = os.getenv("DBPORT")

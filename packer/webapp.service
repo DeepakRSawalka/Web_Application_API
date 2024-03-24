@@ -8,6 +8,7 @@ User=ec2-user
 Group=ec2-group
 ExecStart=/home/ec2-user/webapp/venv/bin/python /home/ec2-user/webapp/app.py
 WorkingDirectory=/home/ec2-user/webapp
+EnvironmentFile=/etc/environment
 Restart=always
 RestartSec=3
 
