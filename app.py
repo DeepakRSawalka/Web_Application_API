@@ -13,8 +13,8 @@ import pandas as pd
 import statsd
 from app_logging import logger
 
-dotenv_path = '/root/environment/.env'
-load_dotenv(dotenv_path)
+
+load_dotenv()
 
 app = Flask(__name__)
 
