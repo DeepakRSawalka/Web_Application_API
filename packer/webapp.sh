@@ -16,11 +16,11 @@ sudo apt-get install unzip -y
 
 # Unzip the web application
 echo "Unzipping the web application"
-unzip webapp.zip -d /home/admin/
+unzip webapp.zip -d webapp
 
 # Navigate to the webapp directory
 echo "Navigating to the webapp directory"
-cd /home/admin/webapp
+cd webapp
 
 # Create a virtual environment
 echo "Creating a virtual environment"
