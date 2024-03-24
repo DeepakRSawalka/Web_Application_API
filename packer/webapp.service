@@ -4,11 +4,11 @@ After=network.target cloud-final.service
 
 [Service]
 Type=simple
+User=admin
 ExecStart=/home/admin/webapp/venv/bin/python /home/admin/webapp/app.py
+WorkingDirectory=/home/admin/webapp
 Restart=always
 RestartSec=3
-User=admin
-WorkingDirectory=/home/admin/webapp
 
 [Install]
 WantedBy=cloud-init.target

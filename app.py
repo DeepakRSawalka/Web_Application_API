@@ -12,10 +12,15 @@ import uuid
 import pandas as pd
 import statsd
 from app_logging import logger
+import logging
 
+logging.basicConfig(level=logging.DEBUG)
 
-print(f"Before loading .env: DBHOST={os.getenv('DBHOST')}")
-load_dotenv()
+logging.debug(f"Before loading .env: DBHOST={os.getenv('DBHOST')}")
+dotenv_path = '/home/admin/webapp/.env'
+load_dotenv(dotenv_path)
+logging.debug(f"After loading .env: DBHOST={os.getenv('DBHOST')}")
+# Or using print
 print(f"After loading .env: DBHOST={os.getenv('DBHOST')}")
 
 app = Flask(__name__)
