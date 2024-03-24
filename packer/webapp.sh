@@ -14,6 +14,9 @@ sudo apt install python3-pip python3-venv -y
 echo "Installing unzip"
 sudo apt-get install unzip -y
 
+sudo groupadd ec2-group
+sudo useradd -s /bin/false -g ec2-group -d /home/ec2-user -m ec2-user
+
 # Unzip the web application
 echo "Unzipping the web application"
 unzip webapp.zip -d webapp
@@ -30,9 +33,17 @@ python3 -m venv venv
 echo " Installing Python dependencies"
 venv/bin/pip install -r requirements.txt
 
+cd ..
+sudo mv /home/admin/webapp /home/ec2-user
+cd /home/ec2-user
+sudo chown -R ec2-user:ec2-group /home/ec2-user/webapp
+sudo chmod 755 /home/ec2-user/webapp
 # Copy the systemd service file and start the service
 echo "Setting up and starting the webapp service"
-sudo cp /home/admin/webapp/packer/webapp.service /etc/systemd/system
+sudo cp /home/ec2-user/webapp/packer/webapp.service /etc/systemd/system
+
+sudo chown -R ec2-user:ec2-group /etc/systemd/system/webapp.service
+
 sudo systemctl daemon-reload
 sudo systemctl enable webapp.service
 sudo systemctl start webapp.service

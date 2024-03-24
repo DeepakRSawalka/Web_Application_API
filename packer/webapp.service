@@ -1,12 +1,13 @@
 [Unit]
 Description=Webapp
-After=network.target cloud-final.service
+After=network.target 
 
 [Service]
 Type=simple
-User=admin
-ExecStart=/home/admin/webapp/venv/bin/python /home/admin/webapp/app.py
-WorkingDirectory=/home/admin/webapp
+User=ec2-user
+Group=ec2-group
+ExecStart=/home/ec2-user/webapp/venv/bin/python /home/ec2-user/webapp/app.py
+WorkingDirectory=/home/ec2-user/webapp
 Restart=always
 RestartSec=3
 
