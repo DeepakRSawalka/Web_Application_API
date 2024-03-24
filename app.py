@@ -18,10 +18,19 @@ logging.basicConfig(level=logging.DEBUG)
 
 logging.debug(f"Before loading .env: DBHOST={os.getenv('DBHOST')}")
 dotenv_path = '/home/admin/webapp/.env'
+print(f"Attempting to load .env from: {os.path.abspath(dotenv_path)}")
 load_dotenv(dotenv_path)
 logging.debug(f"After loading .env: DBHOST={os.getenv('DBHOST')}")
-# Or using print
-print(f"After loading .env: DBHOST={os.getenv('DBHOST')}")
+db_host = os.getenv("DBHOST")
+print(db_host)
+db_port = os.getenv("DBPORT")
+print(db_port)
+db_user = os.getenv("DBUSER")
+print(db_user)
+db_pass = os.getenv("DBPASS")
+print(db_pass)
+db = os.getenv("DB")
+print(db)
 
 app = Flask(__name__)
 
