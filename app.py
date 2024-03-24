@@ -29,8 +29,8 @@ db_user = os.getenv("DBUSER")
 print(db_user)
 db_pass = os.getenv("DBPASS")
 print(db_pass)
-db = os.getenv("DATABASE")
-print(db)
+database = os.getenv("DATABASE")
+print(database)
 
 app = Flask(__name__)
 
