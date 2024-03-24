@@ -9,7 +9,6 @@ Restart=always
 RestartSec=3
 User=admin
 WorkingDirectory=/home/admin/webapp
-EnvironmentFile=/root/environment
 
 [Install]
 WantedBy=cloud-init.target
