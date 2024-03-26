@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify, make_response
 from dotenv import load_dotenv
+load_dotenv()
 from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
 from util.validations import Validation
@@ -17,8 +18,6 @@ import logging
 
 logging.basicConfig(level=logging.INFO)
 
-logging.info(f"Before loading .env: DBHOST={os.getenv('DBHOST')}")
-load_dotenv()
 logging.info(f"After loading .env: DBHOST={os.getenv('DBHOST')}")
 
 db_host = os.getenv("DBHOST")
@@ -314,5 +313,5 @@ if __name__ == '__main__':
     with app.app_context():
         response, status = add_users()
         print(response.get_json(), status)
-    app.run(debug=True)
+    app.run(host="0.0.0.0",debug=True)
 
