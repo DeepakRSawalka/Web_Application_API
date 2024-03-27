@@ -55,7 +55,7 @@ sudo dpkg -i -E ./amazon-cloudwatch-agent.deb
 
 # Copy the CloudWatch Agent configuration file
 echo "Copying the CloudWatch Agent configuration file"
-sudo cp /home/ec2-user/webapp/cloud-watch/config.json /opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json
+sudo cp /home/ec2-user/webapp/config.json /opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json
 
 # Configure the CloudWatch Agent to start on boot
 echo "Configuring the CloudWatch Agent to start on boot"
