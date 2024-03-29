@@ -62,7 +62,7 @@ echo "Configuring the CloudWatch Agent to start on boot"
 sudo systemctl enable amazon-cloudwatch-agent
 
 # Start the CloudWatch Agent
-echo "Starting the CloudWatch Agent..."
+echo "Starting the CloudWatch Agent"
 sudo systemctl start amazon-cloudwatch-agent
 
 echo "Script executed successfully!"
