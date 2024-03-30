@@ -4,6 +4,7 @@ import psycopg2
 import uuid
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import validates
+import validators
 
 db = SQLAlchemy()
 
@@ -39,3 +40,17 @@ class Assignments(db.Model):
         if not 1 <= num_of_attempts <= 100:
             raise ValueError("Number of atempts must be between 1 and 100")
         return num_of_attempts
+
+class Submissions(db.Model):
+    __tablename__ = 'submissions'
+    id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, nullable=False)
+    submission_url = db.Column(db.String(150), nullable=False)
+    submission_date = db.Column(db.DateTime, nullable=False, default=datetime.now())
+    submission_updated = db.Column(db.DateTime, nullable=False, default=datetime.now())
+    assignment_id = db.Column(UUID(as_uuid=True), db.ForeignKey("assignments.id"))
+
+    @validates('submission_url')
+    def validate_url(self, key, submission_url):
+        if not validators.url(submission_url):
+            raise ValueError("Invalid URL format for submission_url")
+        return submission_url
