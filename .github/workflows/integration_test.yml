@@ -16,6 +16,7 @@ jobs:
       DATABASE: "app_db"
       DBPORT: 5433                        
       CSV_PATH: "../users.csv"
+      AWS_REGION: "us-east-1"
 
     services:
       postgres:
