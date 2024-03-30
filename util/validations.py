@@ -60,3 +60,21 @@ class Validation():
             return 'Forbidden'
 
         return ''
+    
+    @staticmethod
+    def isSubDataValid(data):
+        message=""
+        pattern = r'/^(http|https):\/\/.*\.zip$/'
+        submission_url = data.get("submission_url")
+        mandatory = ["submission_url"]
+        if any(k not in data.keys() for k in mandatory):
+            message = "Mandatory field : submission_url"
+        elif len(data)>1:
+            message = "Restricted : Only Submission URL is allowed"
+        elif not re.match(pattern, submission_url):
+            message = "Submission URL is not in correct format"
+        elif submission_url == "":
+            message = "Value cannot be Null in submission_url"
+        elif not isinstance(submission_url, str):
+            message = "Type error: Submission URL should be string"
+        return message

@@ -1,11 +1,14 @@
 from flask import Flask, request, jsonify, make_response
+import json 
+import requests
 from dotenv import load_dotenv
 load_dotenv()
-from datetime import datetime
+from datetime import datetime, timezone
 from flask_sqlalchemy import SQLAlchemy
 from util.validations import Validation
 from util.encrypt import Encryption
-from util.db import Users, Assignments, db
+from util.db import Users, Assignments, db, Submissions
+import boto3
 import os 
 from sqlalchemy.exc import SQLAlchemyError
 import psycopg2
@@ -335,7 +338,114 @@ def update(id):
     c.incr('Patch_assignments')
     logger.error("Method Not allowed", extra={'method': 'PATCH', 'uri': '/v1/assignments/'+ id, 'statusCode': 405})
     return {},405
+
+# Initialize Boto3 SNS client
+sns_client = boto3.client('sns', region_name=os.getenv('AWS_REGION'))
+
+@app.route('/v1/assignments/<id>/submission', methods = ['POST'])
+def create_submission(id):
+    c.incr('Create_submissions')
+    auth_header = request.headers.get('Authorization')
+    if not auth_header:
+        logger.error("Authorization required", extra={'method': 'POST', 'uri': '/v1/assignments/'+ id +'/submission', 'statusCode': 401})
+        return jsonify({"message": "Authorization required"}), 401
     
+    email,password = Encryption.decode(auth_header)
+    if not Validation.validate_email(email):
+        logger.error("Invalid email format", extra={'method': 'POST', 'uri': '/v1/assignments/'+ id +'/submission', 'statusCode': 400})
+        return jsonify({"message": "Invalid email format"}), 400
+    
+    data = request.get_json()
+    message = Validation.isSubDataValid(data)
+    if message != "":
+
+        failure_message = {
+            "submission_url": submission_url,
+            "email": email,
+            "status": 'invalid_url'
+        }
+
+        sns_client.publish(
+            TopicArn=os.getenv('SNS_TOPIC_ARN'),
+            Message=json.dumps({'default': json.dumps(failure_message)}),
+            MessageStructure='json'
+        )
+
+        logger.error(message, extra={'method': 'POST', 'uri': '/v1/assignments/'+ id +'/submission', 'statusCode': 400})
+        return jsonify({"message" : message}), 400
+    
+    submission_url= data.get("submission_url")
+    assign = Assignments.query.filter_by(id=id).first()
+    user = Users.query.filter_by(email=email).first()
+    if not assign:
+        logger.error("Assignment Not found", extra={'method': 'POST', 'uri': '/v1/assignments/'+ id +'/submission', 'statusCode': 404})
+        return jsonify({"message":"Assignment Not found"}), 404
+    
+    # Check if the deadline has passed
+    if datetime.now(timezone.utc) > assign.deadline:
+        logger.error("Deadline has passed", extra={'method': 'POST', 'uri': '/v1/assignments/'+ id +'/submission', 'statusCode': 400})
+        return jsonify({"message": "Deadline has passed"}), 400
+    
+    # Check the number of attempts
+    submission_count = Submissions.query.filter_by(assignment_id=assign.id).count()
+    if submission_count >= assign.num_of_attempts:
+        logger.error("Maximum number of attempts exceeded", extra={'method': 'POST', 'uri': '/v1/assignments/'+ id +'/submission', 'statusCode': 400})
+        return jsonify({"message": "Maximum number of attempts exceeded"}), 400
+
+    new_sub = Submissions(submission_url=submission_url, assignment_id=assign.id)
+    db.session.add(new_sub)
+    try:    
+
+        response = requests.head(submission_url)
+        # Sending SNS message
+        message = {
+            "submission_url": submission_url,
+            "email": email,
+            "user_name": user.first_name,
+            "user_id": user.id,
+            "assignment_id": id,
+            "status": "valid"
+        }
+        sns_client.publish(
+            TopicArn=os.getenv('SNS_TOPIC_ARN'),
+            Message=json.dumps({'default': json.dumps(message)}),
+            MessageStructure='json'
+        )
+
+        db.session.commit()
+        schema = {
+            "id": new_sub.id,
+            "assignment_id": assign.id,
+            "submission_url": new_sub.submission_url,
+            "submission_date": new_sub.submission_date,
+            "submission_updated": new_sub.submission_updated
+        } 
+        logger.info(schema, extra={'method': 'POST', 'uri': '/v1/assignments/'+ id +'/submission', 'statusCode': 201})
+        return schema,201
+    except Exception as e:
+
+        if response.status_code != 200:
+            failure_message = {
+            "submission_url": submission_url,  
+            "email": email,
+            "status": "no_file"
+            }
+        
+            sns_client.publish(
+                Message=json.dumps(failure_message),
+                TopicArn=os.getenv('SNS_TOPIC_ARN')
+            )
+        
+            logger.error(f"HTTP error on submission: {e}", extra={'method': 'POST', 'uri': '/v1/assignments/'+ id +'/submission', 'statusCode': 404})
+            return jsonify({"message": "Submission URL could not be reached"}), 404
+
+        else:
+
+            db.session.rollback()  # Roll back the session on error
+            logger.error(f"Database error, could not submit assignment - {e}", extra={'method': 'POST', 'uri':'/v1/assignments/'+ id +'/submission', 'statusCode': 500})
+            return jsonify({"message": f"Database error, could not submit assignment - {e}"}), 500
+
+
 if __name__ == '__main__':
     with app.app_context():
         response, status = add_users()
