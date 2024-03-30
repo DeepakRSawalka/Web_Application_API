@@ -339,12 +339,13 @@ def update(id):
     logger.error("Method Not allowed", extra={'method': 'PATCH', 'uri': '/v1/assignments/'+ id, 'statusCode': 405})
     return {},405
 
-# Initialize Boto3 SNS client
-sns_client = boto3.client('sns', region_name=os.getenv('AWS_REGION'))
+
 
 @app.route('/v1/assignments/<id>/submission', methods = ['POST'])
 def create_submission(id):
     c.incr('Create_submissions')
+    # Initialize Boto3 SNS client
+    sns_client = boto3.client('sns', region_name=os.getenv('AWS_REGION'))
     auth_header = request.headers.get('Authorization')
     if not auth_header:
         logger.error("Authorization required", extra={'method': 'POST', 'uri': '/v1/assignments/'+ id +'/submission', 'statusCode': 401})
