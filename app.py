@@ -404,8 +404,8 @@ def create_submission(id):
             "submission_url": submission_url,
             "email": email,
             "user_name": user.first_name,
-            "user_id": user.id,
-            "assignment_id": id,
+            "user_id": str(user.id),
+            "assignment_id": str(id),
             "status": "valid"
         }
         sns_client.publish(
@@ -434,7 +434,8 @@ def create_submission(id):
             }
         
             sns_client.publish(
-                Message=json.dumps(failure_message),
+                Message=json.dumps({'default': json.dumps(failure_message)}),
+                MessageStructure='json',
                 TopicArn=os.getenv('SNS_TOPIC_ARN')
             )
         

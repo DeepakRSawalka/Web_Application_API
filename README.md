@@ -61,6 +61,18 @@ DATABASE="database_name"
 PORT=application_port
 CSV_PATH="csv_file_path"
 ```
+## API Endpoints Overview
+
+This project provides a robust set of RESTful API endpoints catering to various application functionalities. Below is an overview of the available endpoints with their respective HTTP methods.
+
+| HTTP Method | Endpoint                            | Description                                 |
+|-------------|-------------------------------------|---------------------------------------------|
+| POST        | `/v1/assignments`                   | Create a new assignment.                    |
+| GET         | `/v1/assignments/{id}`              | Retrieve details of a specific assignment. |
+| POST        | `/v1/assignments/{id}/submission`   | Submit an assignment.                       |
+| GET         | `/v1/assignments/{id}/submissions`  | List all submissions for an assignment.     |
+
+
 
 AWS Configuration: Set up the AWS CLI and authenticate with your credentials.
 GCP Configuration: Set up the gcloud CLI and authenticate with your GCP account.
