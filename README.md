@@ -35,7 +35,11 @@ Below is a detailed Architecture Diagram illustrating the comprehensive setup an
 
 ## SetUp and Installation
 
-**Step 1:** 
+**Step 1**: Clone the Repository
+```bash
+git clone git@github.com:DeepakSawalka/Web_Application_API.git
+```
+
 AWS Configuration: Set up the AWS CLI and authenticate with your credentials.
 GCP Configuration: Set up the gcloud CLI and authenticate with your GCP account.
 Local Environment: Install Python, Flask, and SQLAlchemy for local development.
