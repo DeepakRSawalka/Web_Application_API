@@ -10,7 +10,7 @@ Below is a detailed Architecture Diagram illustrating the comprehensive setup an
 ## Features 
 1. **Programming Language:**
     
-    [Python](https://docs.python.org/3.11/) : Emphasizing Object oriented Principles (OOP) principles for a clean modular, and scalable codebase.
+    [Python-3.11](https://docs.python.org/3.11/) : Emphasizing Object oriented Principles (OOP) principles for a clean modular, and scalable codebase.
 
 2. **Web Framework:**
     
@@ -44,27 +44,9 @@ Below is a detailed Architecture Diagram illustrating the comprehensive setup an
 
     [Postman](https://learning.postman.com/docs/sending-requests/requests/) : Utilized for comprehensive API testing, allowing for the simulation of client requests and responses. It aids in verifying the functionality, reliability, and security of the REST API endpoints throughout the development process.
 
-    
+## SetUp and Installation
 
-Python: Emphasizing OOP principles for a clean, modular, and scalable codebase. The use of Python extends beyond OOP to include general-purpose scripting, showcasing the versatility of Python for different aspects of backend development.
-REST APIs built with Flask, running on AWS EC2 instances.
-PostgreSQL database for persistent storage, with SQLAlchemy as the ORM.
-Load Balancer and Auto Scaling Group for handling traffic and ensuring high availability.
-SNS topics and AWS Lambda functions for asynchronous processing.
-Google Cloud Storage (GCS) bucket for file storage.
-DynamoDB for logging email transaction records.
-Amazon CloudWatch for monitoring and logs management.
-A CI/CD pipeline built with GitHub Actions for automated testing and deployment.
-Prerequisites
-Before starting, ensure you have the following prerequisites:
-
-AWS Account with access to EC2, RDS, SNS, Lambda, DynamoDB, CloudWatch.
-GCP Account with access to GCS Buckets.
-GitHub Account for source code management and actions.
-Pulumi Account for infrastructure as code.
-Basic understanding of Flask, PostgreSQL, AWS, GCP, and CI/CD concepts.
-Step-by-Step Guide
-Step 1: Setup Development Environment
+**Step 1:** 
 AWS Configuration: Set up the AWS CLI and authenticate with your credentials.
 GCP Configuration: Set up the gcloud CLI and authenticate with your GCP account.
 Local Environment: Install Python, Flask, and SQLAlchemy for local development.
