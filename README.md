@@ -10,11 +10,40 @@ Below is a detailed Architecture Diagram illustrating the comprehensive setup an
 ## Features 
 1. **Programming Language:**
     
-    - [Python](https://docs.python.org/3.11/) : Emphasizing Object oriented Principles(OOP) principles for a clean modular, and scalable codebase.
+    [Python](https://docs.python.org/3.11/) : Emphasizing Object oriented Principles (OOP) principles for a clean modular, and scalable codebase.
 
 2. **Web Framework:**
     
-    - [Flask](https://flask.palletsprojects.com/en/latest/) : A lightweight WSGI web application framework that enables rapid development and easy integration of web services, making it ideal for building efficient APIs.
+    [Flask](https://flask.palletsprojects.com/en/latest/) : A lightweight WSGI web application framework that enables rapid development and easy integration of web services, making it ideal for building efficient APIs.
+
+3. **ORM Framework:**
+
+    [SQLAlchemy][] : Utilized as the database toolkit and ORM for Python, facilitating efficient and high-level database operations, which enhances the interaction between the application and the PostgreSQL database.
+
+4. **Database:**
+
+    [PostgreSQL][]: Chosen for its advanced features, reliability, and compatibility with SQLAlchemy, ensuring seamless application integration and robust data management.
+
+5. **Infrastructure as Code:**
+
+    [Pulumi][]: Leveraged to provision and manage cloud infrastructure on platforms like AWS and GCP, ensuring consistent deployments, configurations, and infrastructure versioning.
+
+6. **Event-Driven Architecture:**
+
+    [AWS Lambda][]: Utilized for creating an event-driven solution that responds to application events with automated processes, such as file downloads, notifications, and database updates.
+
+7. **Continuous Integration/Continuous Deployment (CI/CD):**
+
+    [GitHub Actions][]: Implements CI/CD pipelines for automated testing, building, and deployment, enhancing development workflows and ensuring high-quality code.
+
+8. **Scripting:**
+
+    [Bash Scripting][]: Employed for various automation tasks, demonstrating the application of shell scripting in system administration, deployment processes, and environment setup.
+
+9.  **API Testing:**
+
+    [Postman][]: Utilized for comprehensive API testing, allowing for the simulation of client requests and responses. It aids in verifying the functionality, reliability, and security of the REST API endpoints throughout the development process.
+
     
 
 Python: Emphasizing OOP principles for a clean, modular, and scalable codebase. The use of Python extends beyond OOP to include general-purpose scripting, showcasing the versatility of Python for different aspects of backend development.

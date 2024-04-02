@@ -64,7 +64,7 @@ class Validation():
     @staticmethod
     def isSubDataValid(data):
         message=""
-        pattern = r'/^(http|https):\/\/.*\.zip$/'
+        pattern = r'^(http|https):\/\/.*\.zip$'
         submission_url = data.get("submission_url")
         mandatory = ["submission_url"]
         if any(k not in data.keys() for k in mandatory):
