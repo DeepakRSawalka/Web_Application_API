@@ -33,7 +33,7 @@ Below is a detailed Architecture Diagram illustrating the comprehensive setup an
 
 **Custom Metrics with StatsD**: The project employs StatsD for custom metrics collection. This setup enables the generation of detailed insights into application operations, including custom events and performance metrics.
 
-## SetUp and Installation
+## Setup and Installation
 
 **Step 1** : Clone the Repository
 ```bash
@@ -50,6 +50,16 @@ source .\venv\bin\activate
 **Step 4** : Install dependencies from requirements.txt file
 ```bash
 pip install -r requirements.txt
+```
+**Step 5** : Create a `.env` file in your folder
+```bash
+DBHOST="localhost"
+DBPORT=port
+DBUSER="username"
+DBPASS="password"
+DATABASE="database_name"
+PORT=application_port
+CSV_PATH="csv_file_path"
 ```
 
 AWS Configuration: Set up the AWS CLI and authenticate with your credentials.
