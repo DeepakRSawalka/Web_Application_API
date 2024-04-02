@@ -24,7 +24,7 @@ class Assignments(db.Model):
     name = db.Column(db.String(100), nullable=False)
     points = db.Column(db.Integer, nullable=False)
     num_of_attempts = db.Column(db.Integer, nullable=False)
-    deadline = db.Column(db.DateTime, nullable=False)
+    deadline = db.Column(db.DateTime(timezone=True), default=lambda: datetime.now(timezone.utc), nullable=False)
     assignment_created = db.Column(db.DateTime, nullable=False, default=datetime.now(timezone.utc))
     assignment_updated = db.Column(db.DateTime, nullable=False, default=datetime.now(timezone.utc))
     owner_user_id = db.Column(UUID(as_uuid=True), db.ForeignKey("users.id"))
