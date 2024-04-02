@@ -1,6 +1,7 @@
 import bcrypt
 import re
 from util.db import Users, Assignments
+from datetime import datetime
 class Validation():
     @staticmethod
     def isAssignDataValid(data):
@@ -18,14 +19,20 @@ class Validation():
             message = "Values cannot be Null : name, points, num_of_attempts, deadline"
         elif not isinstance(name, str):
             message = "Type error: Name should be string"
-        else:
-
+        elif len(mandatory)==4:
+            for field in mandatory:
+                if field == "deadline":
+                    deadline = data[field].rstrip('Z')  
+                    try:
+                        datetime.strptime(deadline, "%Y-%m-%dT%H:%M:%S.%f")
+                    except ValueError:
+                        message = "Invalid format: deadline must be a valid ISO 8601 datetime string with milliseconds and 'Z'"
             for field in ['points', 'num_of_attempts']:
                 value = data.get(field)
                 if not isinstance(value, int):
-                    return f"Invalid type: {field} must be an integer"
+                    message = f"Invalid type: {field} must be an integer"
                 if not (1 <= value <= 100):
-                    return f"Invalid value: {field} must be between 1 and 100"
+                    message = f"Invalid value: {field} must be between 1 and 100"
         return message
     
     @staticmethod 
