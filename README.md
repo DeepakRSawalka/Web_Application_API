@@ -35,9 +35,21 @@ Below is a detailed Architecture Diagram illustrating the comprehensive setup an
 
 ## SetUp and Installation
 
-**Step 1**: Clone the Repository
+**Step 1** : Clone the Repository
 ```bash
 git clone git@github.com:DeepakSawalka/Web_Application_API.git
+```
+**Step 2** : Create Virtual Environment inside Web_Application_API folder
+```bash
+python3 -m venv .venv
+```
+**Step 3** : Activate Virtual Environment
+```bash
+source .\venv\bin\activate
+```
+**Step 4** : Install dependencies from requirements.txt file
+```bash
+pip install -r requirements.txt
 ```
 
 AWS Configuration: Set up the AWS CLI and authenticate with your credentials.
