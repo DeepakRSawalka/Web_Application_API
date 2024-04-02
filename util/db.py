@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timezone
 from flask_sqlalchemy import SQLAlchemy
 import psycopg2
 import uuid
@@ -15,8 +15,8 @@ class Users(db.Model):
     last_name = db.Column(db.String(100), nullable=False)
     email = db.Column(db.String(100), unique=True, nullable=False)
     password = db.Column(db.String(255), nullable=False)
-    account_created = db.Column(db.DateTime, nullable=False, default=datetime.now())
-    account_updated = db.Column(db.DateTime, nullable=False, default=datetime.now())
+    account_created = db.Column(db.DateTime, nullable=False, default=datetime.now(timezone.utc))
+    account_updated = db.Column(db.DateTime, nullable=False, default=datetime.now(timezone.utc))
 
 class Assignments(db.Model):
     __tablename__ = 'assignments'
@@ -25,8 +25,8 @@ class Assignments(db.Model):
     points = db.Column(db.Integer, nullable=False)
     num_of_attempts = db.Column(db.Integer, nullable=False)
     deadline = db.Column(db.DateTime, nullable=False)
-    assignment_created = db.Column(db.DateTime, nullable=False, default=datetime.now())
-    assignment_updated = db.Column(db.DateTime, nullable=False, default=datetime.now())
+    assignment_created = db.Column(db.DateTime, nullable=False, default=datetime.now(timezone.utc))
+    assignment_updated = db.Column(db.DateTime, nullable=False, default=datetime.now(timezone.utc))
     owner_user_id = db.Column(UUID(as_uuid=True), db.ForeignKey("users.id"))
 
     @validates('points')
@@ -45,8 +45,8 @@ class Submissions(db.Model):
     __tablename__ = 'submissions'
     id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, nullable=False)
     submission_url = db.Column(db.String(150), nullable=False)
-    submission_date = db.Column(db.DateTime, nullable=False, default=datetime.now())
-    submission_updated = db.Column(db.DateTime, nullable=False, default=datetime.now())
+    submission_date = db.Column(db.DateTime, nullable=False, default=datetime.now(timezone.utc))
+    submission_updated = db.Column(db.DateTime, nullable=False, default=datetime.now(timezone.utc))
     assignment_id = db.Column(UUID(as_uuid=True), db.ForeignKey("assignments.id"))
 
     @validates('submission_url')

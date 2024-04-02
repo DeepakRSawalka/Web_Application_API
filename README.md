@@ -44,6 +44,19 @@ Below is a detailed Architecture Diagram illustrating the comprehensive setup an
 
     [Postman](https://learning.postman.com/docs/sending-requests/requests/) : Utilized for comprehensive API testing, allowing for the simulation of client requests and responses. It aids in verifying the functionality, reliability, and security of the REST API endpoints throughout the development process.
 
+Technical Stack & Features
+Python 3.11 & Flask: Utilizes Object-Oriented Principles (OOP) for a scalable codebase and Flask for efficient API development.
+SQLAlchemy & PostgreSQL: ORM for seamless database operations with PostgreSQL, ensuring robust data management.
+Pulumi: Infrastructure as Code (IaC) for consistent cloud infrastructure provisioning on AWS and GCP.
+AWS Lambda: Powers an event-driven architecture for automated processes and integrations.
+GitHub Actions: Facilitates CI/CD pipelines for automated testing, building, and deployment.
+Bash Scripting: Enables automation of deployment processes and environment setup.
+Postman: Supports API testing to ensure endpoint functionality, reliability, and security
+IDE: Developed in Visual Studio Code, enhancing productivity with extensions for Python and cloud development.
+Systemd: Facilitates automatic application startup and management, ensuring reliability.
+Packer: Used for creating custom AMIs, streamlining deployment with pre-configured environments.
+CloudWatch: Provides logging and monitoring, enabling efficient debugging and performance tracking.
+
 ## SetUp and Installation
 
 **Step 1:** 
