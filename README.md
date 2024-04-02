@@ -1,10 +1,20 @@
 ## Project Title: Cloud-Native Web Application on AWS/GCP with Event-Driven Architecture
-## Introduction
-Developed a full-fledged RESTful API with (Python) Flask and deployed on an AWS EC2 instance, providing robust backend services with PostgreSQL database hosted on Amazon RDS. Emphasizing security, the API integrates Basic Authentication and utilizes SQLAlchemy as an ORM framework to interact seamlessly with the database. The project leverages Pulumi for infrastructure provisioning, integrates AWS services for event-driven operations, and employs GitHub Actions for CI/CD.
 
-Architecture Overview
-Our application follows a microservices architecture that allows for independent scaling and deployment of service components. It consists of:
+## Description
+Developed RESTful API with (Python) Flask and deployed on an AWS EC2 instance, providing robust backend services with PostgreSQL database hosted on Amazon RDS. Emphasizing security, the API integrates Basic Authentication and utilizes SQLAlchemy as an ORM framework to interact seamlessly with the database. The project leverages Pulumi for infrastructure provisioning, integrates AWS services for event-driven operations, and employs GitHub Actions for CI/CD.
 
+## Architecture Overview
+Below is a detailed Architecture Diagram illustrating the comprehensive setup and flow of the project:
+
+
+## Features 
+1. **Programming Language:**
+    - [Python][https://docs.python.org/3.11/]: Emphasizing Object oriented Principles(OOP) principles for a clean modular, and scalable codebase.
+
+2. **Web Framework:**
+    - [Flask][https://flask.palletsprojects.com/en/latest/]: A lightweight WSGI web application framework that enables rapid development and easy integration of web services, making it ideal for building efficient APIs.
+
+Python: Emphasizing OOP principles for a clean, modular, and scalable codebase. The use of Python extends beyond OOP to include general-purpose scripting, showcasing the versatility of Python for different aspects of backend development.
 REST APIs built with Flask, running on AWS EC2 instances.
 PostgreSQL database for persistent storage, with SQLAlchemy as the ORM.
 Load Balancer and Auto Scaling Group for handling traffic and ensuring high availability.
