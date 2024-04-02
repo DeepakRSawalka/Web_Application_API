@@ -357,6 +357,7 @@ def create_submission(id):
         return jsonify({"message": "Invalid email format"}), 400
     
     data = request.get_json()
+    submission_url= data.get("submission_url")
     message = Validation.isSubDataValid(data)
     if message != "":
 
@@ -375,7 +376,7 @@ def create_submission(id):
         logger.error(message, extra={'method': 'POST', 'uri': '/v1/assignments/'+ id +'/submission', 'statusCode': 400})
         return jsonify({"message" : message}), 400
     
-    submission_url= data.get("submission_url")
+    
     assign = Assignments.query.filter_by(id=id).first()
     user = Users.query.filter_by(email=email).first()
     if not assign:
