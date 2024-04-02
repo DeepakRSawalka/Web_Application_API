@@ -1,6 +1,6 @@
 ## Project Title: Cloud-Native Web Application on AWS/GCP with Event-Driven Architecture
-Introduction
-Welcome to our Cloud-Native Web Application project! This README provides you with all the necessary steps to set up and deploy a robust, scalable REST API application on AWS, with PostgreSQL as the database. The project leverages Pulumi for infrastructure provisioning, integrates AWS services for event-driven operations, and employs GitHub Actions for CI/CD.
+## Introduction
+Developed a full-fledged RESTful API with (Python) Flask and deployed on an AWS EC2 instance, providing robust backend services with PostgreSQL database hosted on Amazon RDS. Emphasizing security, the API integrates Basic Authentication and utilizes SQLAlchemy as an ORM framework to interact seamlessly with the database. The project leverages Pulumi for infrastructure provisioning, integrates AWS services for event-driven operations, and employs GitHub Actions for CI/CD.
 
 Architecture Overview
 Our application follows a microservices architecture that allows for independent scaling and deployment of service components. It consists of:
