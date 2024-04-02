@@ -18,31 +18,31 @@ Below is a detailed Architecture Diagram illustrating the comprehensive setup an
 
 3. **ORM Framework:**
 
-    [SQLAlchemy][] : Utilized as the database toolkit and ORM for Python, facilitating efficient and high-level database operations, which enhances the interaction between the application and the PostgreSQL database.
+    [SQLAlchemy](https://docs.sqlalchemy.org/en/20/orm/) : Utilized as the database toolkit and ORM for Python, facilitating efficient and high-level database operations, which enhances the interaction between the application and the PostgreSQL database.
 
 4. **Database:**
 
-    [PostgreSQL][]: Chosen for its advanced features, reliability, and compatibility with SQLAlchemy, ensuring seamless application integration and robust data management.
+    [PostgreSQL](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_PostgreSQL.html) : Chosen for its advanced features, reliability, and compatibility with SQLAlchemy, ensuring seamless application integration and robust data management.
 
 5. **Infrastructure as Code:**
 
-    [Pulumi][]: Leveraged to provision and manage cloud infrastructure on platforms like AWS and GCP, ensuring consistent deployments, configurations, and infrastructure versioning.
+    [Pulumi](https://www.pulumi.com/docs/languages-sdks/python/) : Leveraged to provision and manage cloud infrastructure on platforms like AWS and GCP, ensuring consistent deployments, configurations, and infrastructure versioning.
 
 6. **Event-Driven Architecture:**
 
-    [AWS Lambda][]: Utilized for creating an event-driven solution that responds to application events with automated processes, such as file downloads, notifications, and database updates.
+    [AWS Lambda](https://docs.aws.amazon.com/lambda/latest/dg/welcome.html) : Utilized for creating an event-driven solution that responds to application events with automated processes, such as file downloads, notifications, and database updates.
 
 7. **Continuous Integration/Continuous Deployment (CI/CD):**
 
-    [GitHub Actions][]: Implements CI/CD pipelines for automated testing, building, and deployment, enhancing development workflows and ensuring high-quality code.
+    [GitHub Actions](https://docs.github.com/en/actions) : Implements CI/CD pipelines for automated testing, building, and deployment, enhancing development workflows and ensuring high-quality code.
 
 8. **Scripting:**
 
-    [Bash Scripting][]: Employed for various automation tasks, demonstrating the application of shell scripting in system administration, deployment processes, and environment setup.
+    [Bash Scripting](https://linuxconfig.org/bash-scripting-tutorial) : Employed for various automation tasks, demonstrating the application of shell scripting in system administration, deployment processes, and environment setup.
 
 9.  **API Testing:**
 
-    [Postman][]: Utilized for comprehensive API testing, allowing for the simulation of client requests and responses. It aids in verifying the functionality, reliability, and security of the REST API endpoints throughout the development process.
+    [Postman](https://learning.postman.com/docs/sending-requests/requests/) : Utilized for comprehensive API testing, allowing for the simulation of client requests and responses. It aids in verifying the functionality, reliability, and security of the REST API endpoints throughout the development process.
 
     
 
