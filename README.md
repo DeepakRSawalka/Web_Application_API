@@ -9,10 +9,13 @@ Below is a detailed Architecture Diagram illustrating the comprehensive setup an
 
 ## Features 
 1. **Programming Language:**
-    - [Python][https://docs.python.org/3.11/]: Emphasizing Object oriented Principles(OOP) principles for a clean modular, and scalable codebase.
+    <ul>
+    <li> [Python](https://docs.python.org/3.11/): Emphasizing Object oriented Principles(OOP) principles for a clean modular, and scalable codebase.</li></ul>
 
 2. **Web Framework:**
-    - [Flask][https://flask.palletsprojects.com/en/latest/]: A lightweight WSGI web application framework that enables rapid development and easy integration of web services, making it ideal for building efficient APIs.
+    <ul>
+    <li>[Flask](https://flask.palletsprojects.com/en/latest/): A lightweight WSGI web application framework that enables rapid development and easy integration of web services, making it ideal for building efficient APIs.
+    </li></ul>
 
 Python: Emphasizing OOP principles for a clean, modular, and scalable codebase. The use of Python extends beyond OOP to include general-purpose scripting, showcasing the versatility of Python for different aspects of backend development.
 REST APIs built with Flask, running on AWS EC2 instances.
