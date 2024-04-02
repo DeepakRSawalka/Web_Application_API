@@ -15,6 +15,8 @@ Below is a detailed Architecture Diagram illustrating the comprehensive setup an
 
 **Pulumi**: Infrastructure as Code (IaC) for consistent cloud infrastructure provisioning on AWS and GCP.
 
+**Load Balancing & Auto-Scaling**: This project harnesses AWS Elastic Load Balancing and Auto Scaling to optimize the handling of incoming traffic and resource utilization. 
+
 **AWS Lambda**: Utilized for creating an event-driven solution that responds to application events with automated processes.
 
 **GitHub Actions**: Facilitates CI/CD pipelines for automated testing, building, and deployment.
@@ -28,6 +30,8 @@ Below is a detailed Architecture Diagram illustrating the comprehensive setup an
 **Hashicorp Packer**: Used for creating custom AMIs, streamlining deployment with pre-configured environments.
 
 **CloudWatch**: Provides logging and monitoring, enabling efficient debugging and performance tracking.
+
+**Custom Metrics with StatsD**: The project employs StatsD for custom metrics collection. This setup enables the generation of detailed insights into application operations, including custom events and performance metrics.
 
 ## SetUp and Installation
 
