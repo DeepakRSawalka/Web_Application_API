@@ -7,17 +7,26 @@ Developed RESTful API with (Python) Flask and deployed on an AWS EC2 instance, p
 Below is a detailed Architecture Diagram illustrating the comprehensive setup and flow of the project:
 
 
-**Technical Stack & Features**
+## Technical Stack & Features
 
 **Python 3.11 & Flask**: Utilizes Object-Oriented Principles (OOP) for a scalable codebase and (web framework) Flask for efficient API development.
+
 **SQLAlchemy & PostgreSQL**: ORM Framework for seamless database operations with PostgreSQL hosted on Amazon RDS, ensuring robust data management.
+
 **Pulumi**: Infrastructure as Code (IaC) for consistent cloud infrastructure provisioning on AWS and GCP.
+
 **AWS Lambda**: Utilized for creating an event-driven solution that responds to application events with automated processes.
+
 **GitHub Actions**: Facilitates CI/CD pipelines for automated testing, building, and deployment.
+
 **Bash Scripting**: Enables automation of deployment processes and environment setup.
-**Postman**: Supports API testing to ensure endpoint functionality, reliability, and security
+
+**Postman**: Supports API testing to ensure endpoint functionality, reliability, and security.
+
 **Systemd**: Facilitates automatic application startup and management, ensuring reliability.
+
 **Hashicorp Packer**: Used for creating custom AMIs, streamlining deployment with pre-configured environments.
+
 **CloudWatch**: Provides logging and monitoring, enabling efficient debugging and performance tracking.
 
 ## SetUp and Installation
