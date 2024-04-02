@@ -43,9 +43,9 @@ git clone git@github.com:DeepakSawalka/Web_Application_API.git
 ```bash
 python3 -m venv .venv
 ```
-**Step 3** : Activate Virtual Environment
+**Step 3** : Activate Virtual Environment in Bash Shell
 ```bash
-source .\venv\bin\activate
+source ./venv/bin/activate
 ```
 **Step 4** : Install dependencies from requirements.txt file
 ```bash
@@ -67,10 +67,13 @@ This project provides a robust set of RESTful API endpoints catering to various 
 
 | HTTP Method | Endpoint                            | Description                                 |
 |-------------|-------------------------------------|---------------------------------------------|
-| POST        | `/v1/assignments`                   | Create a new assignment.                    |
-| GET         | `/v1/assignments/{id}`              | Retrieve details of a specific assignment. |
-| POST        | `/v1/assignments/{id}/submission`   | Submit an assignment.                       |
-| GET         | `/v1/assignments/{id}/submissions`  | List all submissions for an assignment.     |
+| GET         | `/healthz`                          | Health Check API - Checks if the application has connectivity to the database. |
+| POST        | `/v1/assignments`                   | Create a new assignment. |
+| GET         | `/v1/assignments`                   | Retrieve list of all assignments. |
+| GET         | `/v1/assignments/{id}`              | Retrieve Details about specific assignments. |
+| PUT         | `/v1/assignments/{id}`              | Update assignment.                       |
+| DELETE      | `/v1/assignments/{id}`              | Delete assignment.     |
+| POST        | `/v1/assignments/{id}/submission`   | Submit assignment.     |
 
 
 
