@@ -18,12 +18,14 @@ class Validation():
             message = "Values cannot be Null : name, points, num_of_attempts, deadline"
         elif not isinstance(name, str):
             message = "Type error: Name should be string"
-        for field in ['points', 'num_of_attempts']:
-            value = data.get(field)
-            if not isinstance(value, int):
-                return f"Invalid type: {field} must be an integer"
-            if not (1 <= value <= 100):
-                return f"Invalid value: {field} must be between 1 and 100"
+        else:
+
+            for field in ['points', 'num_of_attempts']:
+                value = data.get(field)
+                if not isinstance(value, int):
+                    return f"Invalid type: {field} must be an integer"
+                if not (1 <= value <= 100):
+                    return f"Invalid value: {field} must be between 1 and 100"
         return message
     
     @staticmethod 
