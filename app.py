@@ -360,13 +360,18 @@ def create_submission(id):
     
     data = request.get_json()
     submission_url= data.get("submission_url")
+    assign = Assignments.query.filter_by(id=id).first()
+    user = Users.query.filter_by(email=email).first()
     message = Validation.isSubDataValid(data)
     if message != "":
 
         failure_message = {
             "submission_url": submission_url,
             "email": email,
-            "status": 'invalid_url'
+            "user_name": user.first_name,
+            "user_id": str(user.id),
+            "assign_id": str(id),
+            "status": "invalid_url"
         }
 
         sns_client.publish(
@@ -379,8 +384,7 @@ def create_submission(id):
         return jsonify({"message" : message}), 400
     
     
-    assign = Assignments.query.filter_by(id=id).first()
-    user = Users.query.filter_by(email=email).first()
+    
     if not assign:
         logger.error("Assignment Not found", extra={'method': 'POST', 'uri': '/v1/assignments/'+ id +'/submission', 'statusCode': 404})
         return jsonify({"message":"Assignment Not found"}), 404
@@ -432,6 +436,9 @@ def create_submission(id):
             failure_message = {
             "submission_url": submission_url,  
             "email": email,
+            "user_name": user.first_name,
+            "user_id": str(user.id),
+            "assign_id": str(id),
             "status": "no_file"
             }
         
