@@ -93,8 +93,10 @@ def add_users():
     except Exception as e:
         logger.error(f'Server error: {e}', extra={'statusCode': 500})
         return jsonify(message=f'DB error: {e}'), 500
+
+api_version = "v1"
   
-@app.route('/v1/assignments', methods = ['POST'])
+@app.route(f'/{api_version}/assignments', methods = ['POST'])
 def create_assignment():
     c.incr('Create_assignments')
     auth_header = request.headers.get('Authorization')
@@ -148,7 +150,7 @@ def create_assignment():
         logger.error(f"Database error, could not create assignment - {e}", extra={'method': 'POST', 'uri': '/v1/assignments', 'statusCode': 500})
         return jsonify({"message": f"Database error, could not create assignment - {e}"}), 500
     
-@app.route('/v1/assignments', methods = ['GET'])
+@app.route(f'/{api_version}/assignments', methods = ['GET'])
 def get_assignments():
     c.incr('GET_assignment_list')
     auth_header = request.headers.get('Authorization')
@@ -195,7 +197,7 @@ def get_assignments():
         logger.error(f"Server error: {e}", extra={'method': 'GET', 'uri': '/v1/assignments', 'statusCode': 500})
         return jsonify({"message": f"Server error: {e}"}), 500
 
-@app.route('/v1/assignments/<id>', methods = ['GET'])
+@app.route(f'/{api_version}/assignments/<id>', methods = ['GET'])
 def get_assignments_details(id):
     c.incr('GET_assignment_details')
     auth_header = request.headers.get('Authorization')
@@ -240,7 +242,7 @@ def get_assignments_details(id):
         logger.error(f"Server error: {e}", extra={'method': 'GET', 'uri': '/v1/assignments/'+ id, 'statusCode': 500})
         return jsonify({"message": f"Server error: {e}"}), 500
 
-@app.route('/v1/assignments/<id>', methods = ['PUT'])
+@app.route(f'/{api_version}/assignments/<id>', methods = ['PUT'])
 def update_assignments(id):
     c.incr('Update_assignments')
     auth_header = request.headers.get('Authorization')
@@ -290,7 +292,7 @@ def update_assignments(id):
         return jsonify({"message": f"Server error: {e}"}), 500
     
 
-@app.route('/v1/assignments/<id>', methods = ['DELETE'])
+@app.route(f'/{api_version}/assignments/<id>', methods = ['DELETE'])
 def delete_assignments(id):
     c.incr('Delete_assignments')
     auth_header = request.headers.get('Authorization')
@@ -333,7 +335,7 @@ def delete_assignments(id):
         logger.error(f"Server error: {e}", extra={'method': 'DELETE', 'uri': '/v1/assignments/'+ id, 'statusCode': 500})
         return jsonify({"message": f"Server error: {e}"}), 500
     
-@app.route('/v1/assignments/<id>', methods = ['PATCH'])
+@app.route(f'/{api_version}/assignments/<id>', methods = ['PATCH'])
 def update(id):
     c.incr('Patch_assignments')
     logger.error("Method Not allowed", extra={'method': 'PATCH', 'uri': '/v1/assignments/'+ id, 'statusCode': 405})
@@ -341,7 +343,7 @@ def update(id):
 
 
 
-@app.route('/v1/assignments/<id>/submission', methods = ['POST'])
+@app.route(f'/{api_version}/assignments/<id>/submission', methods = ['POST'])
 def create_submission(id):
     c.incr('Create_submissions')
     # Initialize Boto3 SNS client
@@ -405,7 +407,7 @@ def create_submission(id):
             "email": email,
             "user_name": user.first_name,
             "user_id": str(user.id),
-            "assignment_id": str(id),
+            "assign_id": str(id),
             "status": "valid"
         }
         sns_client.publish(
