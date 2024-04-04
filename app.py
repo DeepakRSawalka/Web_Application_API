@@ -448,7 +448,7 @@ def create_submission(id):
                 TopicArn=os.getenv('SNS_TOPIC_ARN')
             )
         
-            logger.error(f"HTTP error on submission: {e}", extra={'method': 'POST', 'uri': '/v1/assignments/'+ id +'/submission', 'statusCode': 404})
+            logger.error("Submission URL could not be reached", extra={'method': 'POST', 'uri': '/v1/assignments/'+ id +'/submission', 'statusCode': 404})
             return jsonify({"message": "Submission URL could not be reached"}), 404
 
     except Exception as e:
