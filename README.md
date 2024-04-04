@@ -80,6 +80,7 @@ This project provides a robust set of RESTful API endpoints catering to various 
 | DELETE      | `/v1/assignments/{id}`              | Delete assignment.     |
 | POST        | `/v1/assignments/{id}/submission`   | Submit assignment.     |
 
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ### Domain Registration
 
@@ -113,6 +114,8 @@ Get-Content -Path "private.key" | Set-Clipboard
 ### Load Balancer Configuration
 
 - Ensures the use of valid SSL certificates to secure all data in transit and provide trust to end-users accessing the application.
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
 [![Related Project](https://img.shields.io/badge/Related-Companion_Toolkit-blue?style=flat-square)](https://github.com/yourusername/companion-toolkit)
