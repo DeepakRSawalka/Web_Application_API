@@ -120,4 +120,6 @@ Get-Content -Path "private.key" | Set-Clipboard
 <p align="right">(<a href="#readme-top">Back to Top</a>)</p>
 
 
-[![Related Project](https://img.shields.io/badge/Related-Companion_Toolkit-blue?style=flat-square)](https://github.com/yourusername/companion-toolkit)
+[![Related Project](https://img.shields.io/badge/Pulumi-Github-blue?style=flat-square)](https://github.com/yourusername/companion-toolkit)
+
+[![Related Project](https://img.shields.io/badge/Serverless-Github-blue?style=flat-square)](https://github.com/yourusername/companion-toolkit)
