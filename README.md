@@ -1,4 +1,5 @@
 ## Project Title: Cloud-Native Web Application on AWS/GCP with Event-Driven Architecture
+<a name="readme-top"></a>
 
 ## Description
 Developed RESTful API with (Python) Flask and deployed on an AWS EC2 instance, providing robust backend services with PostgreSQL database hosted on Amazon RDS. Emphasizing security, the API integrates Basic Authentication and utilizes SQLAlchemy as an ORM framework to interact seamlessly with the database. The project leverages Pulumi for infrastructure provisioning, integrates AWS services for event-driven operations, and employs GitHub Actions for CI/CD.
@@ -80,7 +81,7 @@ This project provides a robust set of RESTful API endpoints catering to various 
 | DELETE      | `/v1/assignments/{id}`              | Delete assignment.     |
 | POST        | `/v1/assignments/{id}/submission`   | Submit assignment.     |
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+<p align="right">(<a href="#readme-top">Back to Top</a>)</p>
 
 ### Domain Registration
 
@@ -115,7 +116,7 @@ Get-Content -Path "private.key" | Set-Clipboard
 
 - Ensures the use of valid SSL certificates to secure all data in transit and provide trust to end-users accessing the application.
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+<p align="right">(<a href="#readme-top">Back to Top</a>)</p>
 
 
 [![Related Project](https://img.shields.io/badge/Related-Companion_Toolkit-blue?style=flat-square)](https://github.com/yourusername/companion-toolkit)
