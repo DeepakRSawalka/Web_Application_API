@@ -60,7 +60,7 @@ variable "script_file" {
 
 source "amazon-ebs" "my-ami" {
   region          = "${var.aws_region}"
-  ami_name        = "debian_12_ami"
+  ami_name        = "debian_ami"
   ami_description = "DEBIAN_AMI"
   ami_users       = "${var.ami_users}"
   ami_regions = [
