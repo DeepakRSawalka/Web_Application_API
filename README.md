@@ -115,4 +115,4 @@ Get-Content -Path "private.key" | Set-Clipboard
 - Ensures the use of valid SSL certificates to secure all data in transit and provide trust to end-users accessing the application.
 
 
-
+[![Related Project](https://img.shields.io/badge/Related-Companion_Toolkit-blue?style=flat-square)](https://github.com/yourusername/companion-toolkit)
