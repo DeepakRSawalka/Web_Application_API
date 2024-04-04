@@ -35,6 +35,9 @@ jobs:
           --health-timeout 5s
           --health-retries 5
 
+    outputs:
+      ami_id: ${{ steps.parse_ami_id.outputs.ami_id }}
+
     steps:
       - name: Github code checkout
         uses: actions/checkout@v3
@@ -75,3 +78,107 @@ jobs:
         working-directory: packer
         env:
           PACKER_LOG: 1
+
+      - name: Parse AMI ID
+        id: parse_ami_id
+        working-directory: packer
+        run: |
+          AMI="$(grep 'artifact,0,id' build.log | cut -d, -f6 | cut -d: -f2)"
+          echo "::set-output name=ami_id::$AMI"
+
+      - name: Output AMI_ID
+        env:
+          AMI_ID: ${{ steps.parse_ami_id.outputs.ami_id }}
+        run: |
+          echo $AMI_ID
+
+  
+  dev:
+    needs: test_and_build
+    runs-on: ubuntu-latest
+    env: 
+      AWS_ACCESS_KEY_ID: ${{ secrets.DEV_AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.DEV_AWS_SECRET_ACCESS_KEY }}
+      AWS_REGION: us-east-1
+      AMI_ID: ${{ needs.test_and_build.outputs.ami_id }}
+      
+    steps:
+      - name: Create Dev launch template version
+        run: |
+          aws ec2 create-launch-template-version --launch-template-name csye6225_launchTemplate --source-version 1 --launch-template-data '{"ImageId":"'"$AMI_ID"'"}' --debug
+
+      - name: Update ASG to use the latest launch template version
+        run: |
+          LATEST_VERSION=$(aws ec2 describe-launch-template-versions --launch-template-name csye6225_launchTemplate --query "LaunchTemplateVersions[0].VersionNumber" --output text)
+          aws autoscaling update-auto-scaling-group --auto-scaling-group-name webapp_asg --launch-template "LaunchTemplateName=csye6225_launchTemplate,Version=$LATEST_VERSION"
+
+      - name: Start instance refresh
+        run: |
+          aws autoscaling start-instance-refresh --auto-scaling-group-name webapp_asg
+
+      - name: Wait for instance refresh to complete
+        run: |
+          REFRESH_ID=$(aws autoscaling describe-instance-refreshes --auto-scaling-group-name webapp_asg --query "InstanceRefreshes[0].InstanceRefreshId" --output text)
+          STATUS="Pending"
+          while [[ "$STATUS" == "Pending" || "$STATUS" == "InProgress" ]]; do
+            echo "Waiting for instance refresh to complete"
+            sleep 60
+            STATUS=$(aws autoscaling describe-instance-refreshes --auto-scaling-group-name webapp_asg --instance-refresh-ids $REFRESH_ID --query "InstanceRefreshes[0].Status" --output text)
+            echo "Current status: $STATUS"
+          done
+
+          if [ "$STATUS" == "Successful" ]; then
+            echo "Instance Refresh completed successfully."
+            break
+          elif [ "$STATUS" == "Cancelled" ] || [ "$STATUS" == "Failed" ]; then
+            echo "Instance Refresh failed or was cancelled."
+            exit 1
+          else
+              echo "Waiting for Instance Refresh to complete."
+              sleep 30  # Adjust the sleep interval as needed
+          fi
+
+  prod:
+    needs: test_and_build
+    runs-on: ubuntu-latest
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.PROD_AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.PROD_AWS_SECRET_ACCESS_KEY }}
+      AWS_REGION: us-east-1
+      AMI_ID: ${{ needs.test_and_build.outputs.ami_id }}
+    
+    steps:
+      - name: Create Prod launch template version
+        run: |
+          aws ec2 create-launch-template-version --launch-template-name csye6225_launchTemplate --source-version 1 --launch-template-data '{"ImageId":"'"$AMI_ID"'"}' --debug
+
+      - name: Update ASG to use the latest launch template version
+        run: |
+          LATEST_VERSION=$(aws ec2 describe-launch-template-versions --launch-template-name csye6225_launchTemplate --query "LaunchTemplateVersions[0].VersionNumber" --output text)
+          aws autoscaling update-auto-scaling-group --auto-scaling-group-name webapp_asg --launch-template "LaunchTemplateName=csye6225_launchTemplate,Version=$LATEST_VERSION"
+
+      - name: Start instance refresh
+        run: |
+          aws autoscaling start-instance-refresh --auto-scaling-group-name webapp_asg
+
+      - name: Wait for instance refresh to complete
+        run: |
+          REFRESH_ID=$(aws autoscaling describe-instance-refreshes --auto-scaling-group-name webapp_asg --query "InstanceRefreshes[0].InstanceRefreshId" --output text)
+          STATUS="Pending"
+          while [[ "$STATUS" == "Pending" || "$STATUS" == "InProgress" ]]; do
+            echo "Waiting for instance refresh to complete"
+            sleep 60
+            STATUS=$(aws autoscaling describe-instance-refreshes --auto-scaling-group-name webapp_asg --instance-refresh-ids $REFRESH_ID --query "InstanceRefreshes[0].Status" --output text)
+            echo "Current status: $STATUS"
+          done
+
+          if [ "$STATUS" == "Successful" ]; then
+            echo "Instance Refresh completed successfully."
+            break
+          elif [ "$STATUS" == "Cancelled" ] || [ "$STATUS" == "Failed" ]; then
+            echo "Instance Refresh failed or was cancelled."
+            exit 1
+          else
+              echo "Waiting for Instance Refresh to complete."
+              sleep 30  # Adjust the sleep interval as needed
+          fi
