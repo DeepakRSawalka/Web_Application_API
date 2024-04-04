@@ -382,8 +382,7 @@ def create_submission(id):
 
         logger.error(message, extra={'method': 'POST', 'uri': '/v1/assignments/'+ id +'/submission', 'statusCode': 400})
         return jsonify({"message" : message}), 400
-    
-    
+     
     
     if not assign:
         logger.error("Assignment Not found", extra={'method': 'POST', 'uri': '/v1/assignments/'+ id +'/submission', 'statusCode': 404})
@@ -404,32 +403,34 @@ def create_submission(id):
     db.session.add(new_sub)
     try:    
 
-        response = requests.head(submission_url)
-        # Sending SNS message
-        message = {
-            "submission_url": submission_url,
-            "email": email,
-            "user_name": user.first_name,
-            "user_id": str(user.id),
-            "assign_id": str(id),
-            "status": "valid"
-        }
-        sns_client.publish(
-            TopicArn=os.getenv('SNS_TOPIC_ARN'),
-            Message=json.dumps({'default': json.dumps(message)}),
-            MessageStructure='json'
-        )
+        response = requests.get(submission_url, stream=True)
+        if response.status_code == 200:
 
-        db.session.commit()
-        schema = {
-            "id": new_sub.id,
-            "assignment_id": assign.id,
-            "submission_url": new_sub.submission_url,
-            "submission_date": new_sub.submission_date,
-            "submission_updated": new_sub.submission_updated
-        } 
-        logger.info(schema, extra={'method': 'POST', 'uri': '/v1/assignments/'+ id +'/submission', 'statusCode': 201})
-        return schema,201
+        # Sending SNS message
+            message = {
+                "submission_url": submission_url,
+                "email": email,
+                "user_name": user.first_name,
+                "user_id": str(user.id),
+                "assign_id": str(id),
+                "status": "valid"
+            }
+            sns_client.publish(
+                TopicArn=os.getenv('SNS_TOPIC_ARN'),
+                Message=json.dumps({'default': json.dumps(message)}),
+                MessageStructure='json'
+            )
+
+            db.session.commit()
+            schema = {
+                "id": new_sub.id,
+                "assignment_id": assign.id,
+                "submission_url": new_sub.submission_url,
+                "submission_date": new_sub.submission_date,
+                "submission_updated": new_sub.submission_updated
+            } 
+            logger.info(schema, extra={'method': 'POST', 'uri': '/v1/assignments/'+ id +'/submission', 'statusCode': 201})
+            return schema,201
     except Exception as e:
 
         if response.status_code != 200:
