@@ -431,17 +431,16 @@ def create_submission(id):
             } 
             logger.info(schema, extra={'method': 'POST', 'uri': '/v1/assignments/'+ id +'/submission', 'statusCode': 201})
             return schema,201
-    except Exception as e:
+        else:
 
-        if response.status_code != 200:
             failure_message = {
-            "submission_url": submission_url,  
-            "email": email,
-            "user_name": user.first_name,
-            "user_id": str(user.id),
-            "assign_id": str(id),
-            "status": "no_file"
-            }
+                "submission_url": submission_url,  
+                "email": email,
+                "user_name": user.first_name,
+                "user_id": str(user.id),
+                "assign_id": str(id),
+                "status": "no_file"
+                }
         
             sns_client.publish(
                 Message=json.dumps({'default': json.dumps(failure_message)}),
@@ -452,7 +451,7 @@ def create_submission(id):
             logger.error(f"HTTP error on submission: {e}", extra={'method': 'POST', 'uri': '/v1/assignments/'+ id +'/submission', 'statusCode': 404})
             return jsonify({"message": "Submission URL could not be reached"}), 404
 
-        else:
+    except Exception as e:
 
             db.session.rollback()  # Roll back the session on error
             logger.error(f"Database error, could not submit assignment - {e}", extra={'method': 'POST', 'uri':'/v1/assignments/'+ id +'/submission', 'statusCode': 500})
