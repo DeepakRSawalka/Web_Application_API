@@ -94,7 +94,7 @@ def add_users():
         logger.error(f'Server error: {e}', extra={'statusCode': 500})
         return jsonify(message=f'DB error: {e}'), 500
 
-api_version = "v1"
+api_version = "v2"
   
 @app.route(f'/{api_version}/assignments', methods = ['POST'])
 def create_assignment():
