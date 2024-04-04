@@ -74,7 +74,7 @@ jobs:
 
       - name: Build AMI
         if: success()
-        run: packer build -color=false -on-error=abort -var-file=dev.auto.pkrvars.hcl packer-debian.pkr.hcl || (echo "Packer Build failed!" && exit 1)
+        run: packer build -color=false -on-error=abort -var-file=dev.auto.pkrvars.hcl packer-debian.pkr.hcl || (echo "Packer Build failed!" && exit 1) | tee build.log
         working-directory: packer
         env:
           PACKER_LOG: 1
