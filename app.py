@@ -94,30 +94,30 @@ def add_users():
         logger.error(f'Server error: {e}', extra={'statusCode': 500})
         return jsonify(message=f'DB error: {e}'), 500
 
-api_version = "v2"
+api_version = "v3"
   
 @app.route(f'/{api_version}/assignments', methods = ['POST'])
 def create_assignment():
     c.incr('Create_assignments')
     auth_header = request.headers.get('Authorization')
     if not auth_header:
-        logger.error("Authentication required", extra={'method': 'POST', 'uri': '/v1/assignments', 'statusCode': 401})
+        logger.error("Authentication required", extra={'method': 'POST', 'uri': f'/{api_version}/assignments', 'statusCode': 401})
         return jsonify({"message": "Authentication required"}), 401
     
     email, password = Encryption.decode(auth_header)
     if not Validation.validate_email(email):
-        logger.error("Invalid email format", extra={'method': 'POST', 'uri': '/v1/assignments', 'statusCode': 400})
+        logger.error("Invalid email format", extra={'method': 'POST', 'uri': f'/{api_version}/assignments', 'statusCode': 400})
         return jsonify({"message": "Invalid email format"}), 400
     
     user = Validation.validate_user(email, password)
     if not user:
-        logger.error("Invalid credentials-Unauthorised", extra={'method': 'POST', 'uri': '/v1/assignments', 'statusCode': 401})
+        logger.error("Invalid credentials-Unauthorised", extra={'method': 'POST', 'uri': f'/{api_version}/assignments', 'statusCode': 401})
         return jsonify({"message" : "Invalid credentials-Unauthorised"}), 401
     
     data = request.get_json()
     message = Validation.isAssignDataValid(data)
     if message != "":
-        logger.error(message, extra={'method': 'POST', 'uri': '/v1/assignments', 'statusCode': 400})
+        logger.error(message, extra={'method': 'POST', 'uri': f'/{api_version}/assignments', 'statusCode': 400})
         return jsonify({"message" : message}), 400
     
     name = data.get("name")
@@ -126,7 +126,7 @@ def create_assignment():
     deadline = data.get("deadline")
     assign = Assignments.query.filter_by(name=name).first()
     if assign:
-        logger.error("Assignment already exist", extra={'method': 'POST', 'uri': '/v1/assignments', 'statusCode': 400})
+        logger.error("Assignment already exist", extra={'method': 'POST', 'uri': f'/{api_version}/assignments', 'statusCode': 400})
         return jsonify({"message":"Assignment already exist"}), 400
 
     new_assign = Assignments(name=name, points=points, num_of_attempts=num_of_attempts, deadline=deadline, owner_user_id=user.id)
@@ -143,11 +143,11 @@ def create_assignment():
             "assignment_created": new_assign.assignment_created,
             "assignment_updated": new_assign.assignment_updated
         } 
-        logger.info(schema, extra={'method': 'POST', 'uri': '/v1/assignments', 'statusCode': 201})
+        logger.info(schema, extra={'method': 'POST', 'uri': f'/{api_version}/assignments', 'statusCode': 201})
         return schema,201
     except SQLAlchemyError as e:
         db.session.rollback()  # Roll back the session on error
-        logger.error(f"Database error, could not create assignment - {e}", extra={'method': 'POST', 'uri': '/v1/assignments', 'statusCode': 500})
+        logger.error(f"Database error, could not create assignment - {e}", extra={'method': 'POST', 'uri': f'/{api_version}/assignments', 'statusCode': 500})
         return jsonify({"message": f"Database error, could not create assignment - {e}"}), 500
     
 @app.route(f'/{api_version}/assignments', methods = ['GET'])
@@ -155,27 +155,27 @@ def get_assignments():
     c.incr('GET_assignment_list')
     auth_header = request.headers.get('Authorization')
     if not auth_header:
-        logger.error("Authentication required", extra={'method': 'GET', 'uri': '/v1/assignments', 'statusCode': 401})
+        logger.error("Authentication required", extra={'method': 'GET', 'uri': f'/{api_version}/assignments', 'statusCode': 401})
         return jsonify({"message": "Authentication required"}), 401
     
     email, password = Encryption.decode(auth_header)
     if not Validation.validate_email(email):
-        logger.error("Invalid email format", extra={'method': 'GET', 'uri': '/v1/assignments', 'statusCode': 400})
+        logger.error("Invalid email format", extra={'method': 'GET', 'uri': f'/{api_version}/assignments', 'statusCode': 400})
         return jsonify({"message": "Invalid email format"}), 400
     
     user = Validation.validate_user(email, password)
     if not user:
-        logger.error("Invalid credentials-Unauthorised", extra={'method': 'GET', 'uri': '/v1/assignments', 'statusCode': 401})
+        logger.error("Invalid credentials-Unauthorised", extra={'method': 'GET', 'uri': f'/{api_version}/assignments', 'statusCode': 401})
         return jsonify({"message" : "Invalid credentials-Unauthorised"}), 401
     
     if request.data:
-        logger.error("Request body should be empty", extra={'method': 'GET', 'uri': '/v1/assignments', 'statusCode': 400})
+        logger.error("Request body should be empty", extra={'method': 'GET', 'uri': f'/{api_version}/assignments', 'statusCode': 400})
         return jsonify({"message": "Request body should be empty"}), 400
     
     try:
         assignments = Assignments.query.all() 
         if not assignments:
-            logger.error("Assignment not found", extra={'method': 'GET', 'uri': '/v1/assignments', 'statusCode': 404})
+            logger.error("Assignment not found", extra={'method': 'GET', 'uri': f'/{api_version}/assignments', 'statusCode': 404})
             return jsonify({"message": "Assignment not found"}), 404
          
         schema = []
@@ -190,11 +190,11 @@ def get_assignments():
             "assignment_updated": assignment.assignment_updated.isoformat()
          }
             schema.append(result)
-        logger.info(schema, extra={'method': 'GET', 'uri': '/v1/assignments', 'statusCode': 200})
+        logger.info(schema, extra={'method': 'GET', 'uri': f'/{api_version}/assignments', 'statusCode': 200})
         return schema,200
 
     except Exception as e:
-        logger.error(f"Server error: {e}", extra={'method': 'GET', 'uri': '/v1/assignments', 'statusCode': 500})
+        logger.error(f"Server error: {e}", extra={'method': 'GET', 'uri': f'/{api_version}/assignments', 'statusCode': 500})
         return jsonify({"message": f"Server error: {e}"}), 500
 
 @app.route(f'/{api_version}/assignments/<id>', methods = ['GET'])
@@ -202,27 +202,27 @@ def get_assignments_details(id):
     c.incr('GET_assignment_details')
     auth_header = request.headers.get('Authorization')
     if not auth_header:
-        logger.error("Authentication required", extra={'method': 'GET', 'uri': '/v1/assignments/'+ id, 'statusCode': 401})
+        logger.error("Authentication required", extra={'method': 'GET', 'uri': f'/{api_version}/assignments/'+ id, 'statusCode': 401})
         return jsonify({"message": "Authentication required"}), 401
     
     email, password = Encryption.decode(auth_header)
     if not Validation.validate_email(email):
-        logger.error("Invalid email format", extra={'method': 'GET', 'uri': '/v1/assignments/'+ id, 'statusCode': 400})
+        logger.error("Invalid email format", extra={'method': 'GET', 'uri': f'/{api_version}/assignments/'+ id, 'statusCode': 400})
         return jsonify({"message": "Invalid email format"}), 400
     
     user = Validation.validate_user(email, password)
     if not user:
-        logger.error("Invalid credentials-Unauthorised", extra={'method': 'GET', 'uri': '/v1/assignments/'+ id, 'statusCode': 401})
+        logger.error("Invalid credentials-Unauthorised", extra={'method': 'GET', 'uri': f'/{api_version}/assignments/'+ id, 'statusCode': 401})
         return jsonify({"message" : "Invalid credentials-Unauthorised"}), 401
     
     if request.data:
-        logger.error("Request body should be empty", extra={'method': 'GET', 'uri': '/v1/assignments/'+ id, 'statusCode': 400})
+        logger.error("Request body should be empty", extra={'method': 'GET', 'uri': f'/{api_version}/assignments/'+ id, 'statusCode': 400})
         return jsonify({"message": "Request body should be empty"}), 400
     
     try:
         assignments = Assignments.query.filter_by(id=id).first()
         if not assignments:
-            logger.error("Assignment not found", extra={'method': 'GET', 'uri': '/v1/assignments/'+ id, 'statusCode': 404})
+            logger.error("Assignment not found", extra={'method': 'GET', 'uri': f'/{api_version}/assignments/'+ id, 'statusCode': 404})
             return jsonify({"message": "Assignment not found"}), 404
          
         schema = {
@@ -235,11 +235,11 @@ def get_assignments_details(id):
         "assignment_updated": assignments.assignment_updated.isoformat()
          }
         
-        logger.info(schema, extra={'method': 'GET', 'uri': '/v1/assignments/'+ id, 'statusCode': 200})  
+        logger.info(schema, extra={'method': 'GET', 'uri': f'/{api_version}/assignments/'+ id, 'statusCode': 200})  
         return schema,200
 
     except Exception as e:
-        logger.error(f"Server error: {e}", extra={'method': 'GET', 'uri': '/v1/assignments/'+ id, 'statusCode': 500})
+        logger.error(f"Server error: {e}", extra={'method': 'GET', 'uri': f'/{api_version}/assignments/'+ id, 'statusCode': 500})
         return jsonify({"message": f"Server error: {e}"}), 500
 
 @app.route(f'/{api_version}/assignments/<id>', methods = ['PUT'])
@@ -247,34 +247,34 @@ def update_assignments(id):
     c.incr('Update_assignments')
     auth_header = request.headers.get('Authorization')
     if not auth_header:
-        logger.error("Authentication required", extra={'method': 'PUT', 'uri': '/v1/assignments/'+ id, 'statusCode': 401})
+        logger.error("Authentication required", extra={'method': 'PUT', 'uri': f'/{api_version}/assignments/'+ id, 'statusCode': 401})
         return jsonify({"message": "Authentication required"}), 401
     
     email, password = Encryption.decode(auth_header)
     if not Validation.validate_email(email):
-        logger.error("Invalid email format", extra={'method': 'PUT', 'uri': '/v1/assignments/'+ id, 'statusCode': 400})
+        logger.error("Invalid email format", extra={'method': 'PUT', 'uri': f'/{api_version}/assignments/'+ id, 'statusCode': 400})
         return jsonify({"message": "Invalid email format"}), 400
     
     user = Validation.validate_user(email, password)
     if not user:
-        logger.error("Invalid credentials-Unauthorised", extra={'method': 'PUT', 'uri': '/v1/assignments/'+ id, 'statusCode': 401})
+        logger.error("Invalid credentials-Unauthorised", extra={'method': 'PUT', 'uri': f'/{api_version}/assignments/'+ id, 'statusCode': 401})
         return jsonify({"message" : "Invalid credentials-Unauthorised"}), 401
     
     try:
         assignments = Assignments.query.filter_by(id=id).first()
 
         if assignments.owner_user_id != user.id:
-            logger.error("User does not have necessary permissions to Update-Forbidden", extra={'method': 'PUT', 'uri': '/v1/assignments/'+ id, 'statusCode': 403})
+            logger.error("User does not have necessary permissions to Update-Forbidden", extra={'method': 'PUT', 'uri': f'/{api_version}/assignments/'+ id, 'statusCode': 403})
             return jsonify({"message": "User does not have necessary permissions to Update-Forbidden"}), 403
 
         if not assignments:
-            logger.error("Assignment not found", extra={'method': 'PUT', 'uri': '/v1/assignments/'+ id, 'statusCode': 404})
+            logger.error("Assignment not found", extra={'method': 'PUT', 'uri': f'/{api_version}/assignments/'+ id, 'statusCode': 404})
             return jsonify({"message": "Assignment not found"}), 404
         
         data = request.get_json()
         message = Validation.isAssignDataValid(data)
         if message != "":
-            logger.error(message, extra={'method': 'PUT', 'uri': '/v1/assignments/'+ id, 'statusCode': 400})
+            logger.error(message, extra={'method': 'PUT', 'uri': f'/{api_version}/assignments/'+ id, 'statusCode': 400})
             return jsonify({"message" : message}), 400
     
         assignments.name = data.get("name")
@@ -284,11 +284,11 @@ def update_assignments(id):
          
         db.session.commit()
 
-        logger.info("Assignment updated Successfully!!", extra={'method': 'PUT', 'uri': '/v1/assignments/'+ id, 'statusCode': 204}) 
+        logger.info("Assignment updated Successfully!!", extra={'method': 'PUT', 'uri': f'/{api_version}/assignments/'+ id, 'statusCode': 204}) 
         return {},204
 
     except Exception as e:
-        logger.error(f"Server error: {e}", extra={'method': 'PUT', 'uri': '/v1/assignments/'+ id, 'statusCode': 500})
+        logger.error(f"Server error: {e}", extra={'method': 'PUT', 'uri': f'/{api_version}/assignments/'+ id, 'statusCode': 500})
         return jsonify({"message": f"Server error: {e}"}), 500
     
 
@@ -297,48 +297,48 @@ def delete_assignments(id):
     c.incr('Delete_assignments')
     auth_header = request.headers.get('Authorization')
     if not auth_header:
-        logger.error("Authentication required", extra={'method': 'DELETE', 'uri': '/v1/assignments/'+ id, 'statusCode': 401})
+        logger.error("Authentication required", extra={'method': 'DELETE', 'uri': f'/{api_version}/assignments/'+ id, 'statusCode': 401})
         return jsonify({"message": "Authentication required"}), 401
     
     email, password = Encryption.decode(auth_header)
     if not Validation.validate_email(email):
-        logger.error("Invalid email format", extra={'method': 'DELETE', 'uri': '/v1/assignments/'+ id, 'statusCode': 400})
+        logger.error("Invalid email format", extra={'method': 'DELETE', 'uri': f'/{api_version}/assignments/'+ id, 'statusCode': 400})
         return jsonify({"message": "Invalid email format"}), 400
     
     user = Validation.validate_user(email, password)
     if not user:
-        logger.error("Invalid credentials-Unauthorised", extra={'method': 'DELETE', 'uri': '/v1/assignments/'+ id, 'statusCode': 401})
+        logger.error("Invalid credentials-Unauthorised", extra={'method': 'DELETE', 'uri': f'/{api_version}/assignments/'+ id, 'statusCode': 401})
         return jsonify({"message" : "Invalid credentials-Unauthorised"}), 401
     
     try:
         assignments = Assignments.query.filter_by(id=id).first()
 
         if assignments.owner_user_id != user.id:
-            logger.error("User does not have necessary permissions to Delete-Forbidden", extra={'method': 'DELETE', 'uri': '/v1/assignments/'+ id, 'statusCode': 403})
+            logger.error("User does not have necessary permissions to Delete-Forbidden", extra={'method': 'DELETE', 'uri': f'/{api_version}/assignments/'+ id, 'statusCode': 403})
             return jsonify({"message": "User does not have necessary permissions to Delete-Forbidden"}), 403
 
         if request.data:
-            logger.error("Request body should be empty", extra={'method': 'DELETE', 'uri': '/v1/assignments/'+ id, 'statusCode': 400})
+            logger.error("Request body should be empty", extra={'method': 'DELETE', 'uri': f'/{api_version}/assignments/'+ id, 'statusCode': 400})
             return jsonify({"message": "Request body should be empty"}), 400
     
         if not assignments:
-            logger.error("Assignment not found", extra={'method': 'DELETE', 'uri': '/v1/assignments/'+ id, 'statusCode': 404})
+            logger.error("Assignment not found", extra={'method': 'DELETE', 'uri': f'/{api_version}/assignments/'+ id, 'statusCode': 404})
             return jsonify({"message": "Assignment not found"}), 404
 
         db.session.delete(assignments)
         db.session.commit()
         
-        logger.info("Assignment Deleted Successfully!!", extra={'method': 'DELETE', 'uri': '/v1/assignments/'+ id, 'statusCode': 204})
+        logger.info("Assignment Deleted Successfully!!", extra={'method': 'DELETE', 'uri': f'/{api_version}/assignments/'+ id, 'statusCode': 204})
         return {},204
 
     except Exception as e:
-        logger.error(f"Server error: {e}", extra={'method': 'DELETE', 'uri': '/v1/assignments/'+ id, 'statusCode': 500})
+        logger.error(f"Server error: {e}", extra={'method': 'DELETE', 'uri': f'/{api_version}/assignments/'+ id, 'statusCode': 500})
         return jsonify({"message": f"Server error: {e}"}), 500
     
 @app.route(f'/{api_version}/assignments/<id>', methods = ['PATCH'])
 def update(id):
     c.incr('Patch_assignments')
-    logger.error("Method Not allowed", extra={'method': 'PATCH', 'uri': '/v1/assignments/'+ id, 'statusCode': 405})
+    logger.error("Method Not allowed", extra={'method': 'PATCH', 'uri': f'/{api_version}/assignments/'+ id, 'statusCode': 405})
     return {},405
 
 
@@ -350,12 +350,12 @@ def create_submission(id):
     sns_client = boto3.client('sns', region_name=os.getenv('AWS_REGION'))
     auth_header = request.headers.get('Authorization')
     if not auth_header:
-        logger.error("Authorization required", extra={'method': 'POST', 'uri': '/v1/assignments/'+ id +'/submission', 'statusCode': 401})
+        logger.error("Authorization required", extra={'method': 'POST', 'uri': f'/{api_version}/assignments/'+ id +'/submission', 'statusCode': 401})
         return jsonify({"message": "Authorization required"}), 401
     
     email,password = Encryption.decode(auth_header)
     if not Validation.validate_email(email):
-        logger.error("Invalid email format", extra={'method': 'POST', 'uri': '/v1/assignments/'+ id +'/submission', 'statusCode': 400})
+        logger.error("Invalid email format", extra={'method': 'POST', 'uri': f'/{api_version}/assignments/'+ id +'/submission', 'statusCode': 400})
         return jsonify({"message": "Invalid email format"}), 400
     
     data = request.get_json()
@@ -380,23 +380,23 @@ def create_submission(id):
             MessageStructure='json'
         )
 
-        logger.error(message, extra={'method': 'POST', 'uri': '/v1/assignments/'+ id +'/submission', 'statusCode': 400})
+        logger.error(message, extra={'method': 'POST', 'uri': f'/{api_version}/assignments/'+ id +'/submission', 'statusCode': 400})
         return jsonify({"message" : message}), 400
      
     
     if not assign:
-        logger.error("Assignment Not found", extra={'method': 'POST', 'uri': '/v1/assignments/'+ id +'/submission', 'statusCode': 404})
+        logger.error("Assignment Not found", extra={'method': 'POST', 'uri': f'/{api_version}/assignments/'+ id +'/submission', 'statusCode': 404})
         return jsonify({"message":"Assignment Not found"}), 404
     
     # Check if the deadline has passed
     if datetime.now(timezone.utc) > assign.deadline:
-        logger.error("Deadline has passed", extra={'method': 'POST', 'uri': '/v1/assignments/'+ id +'/submission', 'statusCode': 400})
+        logger.error("Deadline has passed", extra={'method': 'POST', 'uri': f'/{api_version}/assignments/'+ id +'/submission', 'statusCode': 400})
         return jsonify({"message": "Deadline has passed"}), 400
     
     # Check the number of attempts
     submission_count = Submissions.query.filter_by(assignment_id=assign.id).count()
     if submission_count >= assign.num_of_attempts:
-        logger.error("Maximum number of attempts exceeded", extra={'method': 'POST', 'uri': '/v1/assignments/'+ id +'/submission', 'statusCode': 400})
+        logger.error("Maximum number of attempts exceeded", extra={'method': 'POST', 'uri': f'/{api_version}/assignments/'+ id +'/submission', 'statusCode': 400})
         return jsonify({"message": "Maximum number of attempts exceeded"}), 400
 
     new_sub = Submissions(submission_url=submission_url, assignment_id=assign.id)
@@ -429,7 +429,7 @@ def create_submission(id):
                 "submission_date": new_sub.submission_date,
                 "submission_updated": new_sub.submission_updated
             } 
-            logger.info(schema, extra={'method': 'POST', 'uri': '/v1/assignments/'+ id +'/submission', 'statusCode': 201})
+            logger.info(schema, extra={'method': 'POST', 'uri': f'/{api_version}/assignments/'+ id +'/submission', 'statusCode': 201})
             return schema,201
         else:
 
@@ -448,13 +448,13 @@ def create_submission(id):
                 TopicArn=os.getenv('SNS_TOPIC_ARN')
             )
         
-            logger.error("Submission URL could not be reached", extra={'method': 'POST', 'uri': '/v1/assignments/'+ id +'/submission', 'statusCode': 404})
+            logger.error("Submission URL could not be reached", extra={'method': 'POST', 'uri': f'/{api_version}/assignments/'+ id +'/submission', 'statusCode': 404})
             return jsonify({"message": "Submission URL could not be reached"}), 404
 
     except Exception as e:
 
             db.session.rollback()  # Roll back the session on error
-            logger.error(f"Database error, could not submit assignment - {e}", extra={'method': 'POST', 'uri':'/v1/assignments/'+ id +'/submission', 'statusCode': 500})
+            logger.error(f"Database error, could not submit assignment - {e}", extra={'method': 'POST', 'uri':f'/{api_version}/assignments/'+ id +'/submission', 'statusCode': 500})
             return jsonify({"message": f"Database error, could not submit assignment - {e}"}), 500
 
 
