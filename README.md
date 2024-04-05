@@ -86,9 +86,9 @@ This project provides a robust set of RESTful API endpoints catering to various 
 
 ## Checkout the following 2 Repositories: 
 
-- **Infrastructure as Code with Pulumi** - [![Related Project](https://img.shields.io/badge/Pulumi-Github-blue?style=flat-square)](https://github.com/yourusername/companion-toolkit)
+- **Infrastructure as Code with Pulumi** - [![Related Project](https://img.shields.io/badge/Pulumi-Github-blue?style=flat-square)](https://github.com/DeepakRSawalka/iac_pulumi_python)
 
-- **Serverless - Event Driven Architecture** - [![Related Project](https://img.shields.io/badge/Serverless-Github-blue?style=flat-square)](https://github.com/yourusername/companion-toolkit)
+- **Serverless - Event Driven Architecture** - [![Related Project](https://img.shields.io/badge/Serverless-Github-blue?style=flat-square)](https://github.com/DeepakRSawalka/serverless_python)
 
 ### Domain Registration
 
