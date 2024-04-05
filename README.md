@@ -84,7 +84,7 @@ This project provides a robust set of RESTful API endpoints catering to various 
 
 <p align="right">(<a href="#readme-top">Back to Top</a>)</p>
 
-### Checkout my other 2 Repositories 
+## Checkout the following 2 Repositories: 
 
 - **Infrastructure as Code with Pulumi** - [![Related Project](https://img.shields.io/badge/Pulumi-Github-blue?style=flat-square)](https://github.com/yourusername/companion-toolkit)
 
