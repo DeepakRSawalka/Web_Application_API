@@ -44,7 +44,7 @@ Below is a detailed Architecture Diagram illustrating the comprehensive setup an
 
 **Step 1** : Clone the Repository
 ```bash
-git clone git@github.com:DeepakSawalka/Web_Application_API.git
+git clone <repo-link>
 ```
 **Step 2** : Create Virtual Environment inside Web_Application_API folder
 ```bash
