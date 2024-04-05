@@ -44,7 +44,7 @@ Below is a detailed Architecture Diagram illustrating the comprehensive setup an
 
 **Step 1** : Clone the Repository
 ```bash
-git clone <repository-link>
+git clone git@github.com:DeepakSawalka/Web_Application_API.git
 ```
 **Step 2** : Create Virtual Environment inside Web_Application_API folder
 ```bash
@@ -86,9 +86,9 @@ This project provides a robust set of RESTful API endpoints catering to various 
 
 ## Checkout the following 2 Repositories: 
 
-- **Infrastructure as Code with Pulumi** - [![Related Project](https://img.shields.io/badge/Pulumi-Github-blue?style=flat-square)](https://github.com/DeepakRSawalka/iac_pulumi_python)
+- **Infrastructure as Code with Pulumi** - [![Related Project](https://img.shields.io/badge/Pulumi-Github-blue?style=flat-square)](https://github.com/DeepakSawalka/iac_pulumi_python)
 
-- **Serverless - Event Driven Architecture** - [![Related Project](https://img.shields.io/badge/Serverless-Github-blue?style=flat-square)](https://github.com/DeepakRSawalka/serverless_python)
+- **Serverless - Event Driven Architecture** - [![Related Project](https://img.shields.io/badge/Serverless-Github-blue?style=flat-square)](https://github.com/DeepakSawalka/serverless_python)
 
 ### Domain Registration
 
