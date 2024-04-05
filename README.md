@@ -84,6 +84,12 @@ This project provides a robust set of RESTful API endpoints catering to various 
 
 <p align="right">(<a href="#readme-top">Back to Top</a>)</p>
 
+## Checkout my other 2 Repositories 
+
+1. **Infrastructure as Code with Pulumi** - [![Related Project](https://img.shields.io/badge/Pulumi-Github-blue?style=flat-square)](https://github.com/yourusername/companion-toolkit)
+
+2. **Serverless - Event Driven Architecture** - [![Related Project](https://img.shields.io/badge/Serverless-Github-blue?style=flat-square)](https://github.com/yourusername/companion-toolkit)
+
 ### Domain Registration
 
 - **Registrar**: Namecheap
@@ -118,8 +124,3 @@ Get-Content -Path "private.key" | Set-Clipboard
 - Ensures the use of valid SSL certificates to secure all data in transit and provide trust to end-users accessing the application.
 
 <p align="right">(<a href="#readme-top">Back to Top</a>)</p>
-
-
-[![Related Project](https://img.shields.io/badge/Pulumi-Github-blue?style=flat-square)](https://github.com/yourusername/companion-toolkit)
-
-[![Related Project](https://img.shields.io/badge/Serverless-Github-blue?style=flat-square)](https://github.com/yourusername/companion-toolkit)
